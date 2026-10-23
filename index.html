@@ -1,1266 +1,634 @@
 <!doctype html>
-
-
-
 <html lang="en">
-
-
-
 <head>
-
-
-
 <meta charset="utf-8">
-
-
-
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-
-
-
+<meta name="description" content="SwasthyaSaathi: plain-language health information, symptom guidance, hospitals and government schemes for India.">
+<meta name="theme-color" content="#1565D8">
 <title>SwasthyaSaathi: Your Health. Our Support.</title>
-
-
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-
-
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
-
-
-
-/* Colors live here. Dark values are set twice: system dark and manual dark. */
-
-
-
-:root{--bg:#EEF5FD;--card:#fff;--ink:#0F2740;--mut:#566B82;--line:#D5E2F1;--pri:#1565D8;--on:#fff;--navy:#0B2A4A;--soft:#E6F0FD;--ok:#0F7A62;--okbg:#E3F5EF;--warn:#9A4A06;--warnbg:#FFF1DC;--bad:#B3261E;--badbg:#FDECEC;--r:14px;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-
-
-
-@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0A1626;--card:#10233B;--ink:#EAF2FB;--mut:#9DB2C9;--line:#26405F;--pri:#6FAEFF;--on:#06213F;--navy:#06101D;--soft:#15304F;--ok:#4CD1AE;--okbg:#12362E;--warn:#F5B454;--warnbg:#3A2C0F;--bad:#FFB4AB;--badbg:#3A1620}}
-
-
-
-:root[data-theme=dark]{--bg:#0A1626;--card:#10233B;--ink:#EAF2FB;--mut:#9DB2C9;--line:#26405F;--pri:#6FAEFF;--on:#06213F;--navy:#06101D;--soft:#15304F;--ok:#4CD1AE;--okbg:#12362E;--warn:#F5B454;--warnbg:#3A2C0F;--bad:#FFB4AB;--badbg:#3A1620}
-
-
-
+/* ===== Colours. JS always sets data-theme to light or dark, so dark values live in ONE place. ===== */
+:root{color-scheme:light;--bg:#F1F6FC;--card:#fff;--ink:#0F2740;--mut:#566B82;--line:#D9E5F2;--pri:#1565D8;--pri2:#0E9AA7;--on:#fff;--navy:#0B2A4A;--soft:#E6F0FD;--ok:#0F7A62;--okbg:#E3F5EF;--warn:#9A4A06;--warnbg:#FFF1DC;--bad:#B3261E;--badbg:#FDECEC;--r:16px;--sh:0 6px 22px #153c6510;--h1:#E3F0FF;--h2:#F7FBFF;--h3:#E4F7F1;
+--c1b:#E7F1FF;--c1f:#1766C9;--c2b:#E3F7EF;--c2f:#168264;--c3b:#DFF6F8;--c3f:#0E7C86;--c4b:#FFF0D9;--c4f:#A65C0B;--c5b:#E9E6FF;--c5f:#6750C9;--c6b:#FFE9E1;--c6f:#C25B36;--c7b:#FDE7EF;--c7f:#C2306B;--c8b:#FDECEC;--c8f:#B3261E}
+:root[data-theme=dark]{color-scheme:dark;--bg:#0A1626;--card:#10233B;--ink:#EAF2FB;--mut:#9DB2C9;--line:#26405F;--pri:#6FAEFF;--pri2:#4CD1D9;--on:#06213F;--navy:#06101D;--soft:#15304F;--ok:#4CD1AE;--okbg:#12362E;--warn:#F5B454;--warnbg:#3A2C0F;--bad:#FFB4AB;--badbg:#3A1620;--sh:0 6px 22px #0006;--h1:#132E4C;--h2:#10263A;--h3:#12352F;
+--c1b:#17325A;--c1f:#8DBEFF;--c2b:#123A31;--c2f:#4CD1AE;--c3b:#0F3A40;--c3f:#5BD3E0;--c4b:#40300F;--c4f:#F5B454;--c5b:#2A2650;--c5f:#B7A8FF;--c6b:#44261C;--c6f:#FF9E7A;--c7b:#471F33;--c7f:#FF8DB5;--c8b:#3A1620;--c8f:#FFB4AB}
 :root[data-hc]{--line:var(--ink);--mut:var(--ink)}
-
-
-
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
-
-
-
+html{scroll-padding-top:70px}
 html,body{height:100%;margin:0}
-
-
-
-body{font:400 1rem/1.55 Inter,system-ui,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink)}
-
-
-
-*,*::before,*::after{box-sizing:inherit}
-
-
-
-svg{width:20px;height:20px;flex:none}
-
-
-
+body{font:400 1rem/1.55 Inter,system-ui,"Segoe UI",Roboto,"Noto Sans Devanagari",sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+*,*::before,*::after{box-sizing:border-box}
+svg{flex:none}.ic{width:20px;height:20px}.sm{width:18px;height:18px;vertical-align:-4px}
 :focus-visible{outline:3px solid var(--pri);outline-offset:2px}
+.skip{position:absolute;left:-999px}.skip:focus{left:8px;top:8px;background:#fff;color:#000;padding:8px;z-index:50}
+a{color:var(--pri)}
 
-
-
-.skip{position:absolute;left:-999px}.skip:focus{left:8px;top:8px;background:#fff;color:#000;padding:8px;z-index:10}
-
-
-
-/* Layout */
-
-
-
-.app{display:grid;grid-template-columns:250px minmax(0,1fr);height:100%;transition:grid-template-columns .2s}
-
-.app.sidebar-closed{grid-template-columns:minmax(0,1fr)}
-
-.app.sidebar-closed .sb{display:none}
-
-
-
-.sb{background:var(--navy);color:#DCE8F7;padding:18px 12px;display:flex;flex-direction:column;gap:3px;overflow:auto}
-
-
-
+/* ===== Layout ===== */
+.app{display:grid;grid-template-columns:262px minmax(0,1fr);height:100vh;height:100dvh}
+@media(min-width:861px){.app.sb-off{grid-template-columns:minmax(0,1fr)}.app.sb-off .sb{display:none}}
+.sb{background:linear-gradient(180deg,var(--navy),#0E3560);color:#DCE8F7;padding:18px 12px;display:flex;flex-direction:column;gap:3px;overflow:auto}
+:root[data-theme=dark] .sb{background:var(--navy)}
 .sb :focus-visible{outline-color:#fff}
-
-
-
-.logo{display:flex;gap:10px;align-items:center;padding:4px 8px 16px;color:#fff;font-weight:700}
-
-
-
-.logo small{display:block;font-weight:400;font-size:.72rem;color:#9DB6D3}
-
-
-
-.logo svg{width:36px;height:36px;color:#5AA2FF;fill:#5AA2FF33}
-
-
-
-.nb{display:flex;gap:12px;align-items:center;width:100%;min-height:44px;padding:10px 12px;border:0;border-radius:10px;background:none;color:inherit;font:inherit;font-size:.92rem;text-align:left;cursor:pointer}
-
-
-
+.logo{display:flex;gap:10px;align-items:center;padding:4px 8px 18px;color:#fff;font-weight:800;letter-spacing:-.02em}
+.logo small{display:block;font-weight:400;font-size:.72rem;color:#9DB6D3;letter-spacing:0}
+.logo .lg{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,#2F7BEA,#13B5B1);display:grid;place-items:center;color:#fff}
+.logo .lg svg{width:22px;height:22px}
+.nb{display:flex;gap:12px;align-items:center;width:100%;min-height:44px;padding:10px 12px;border:0;border-radius:11px;background:none;color:inherit;font:inherit;font-size:.92rem;text-align:left;cursor:pointer;transition:background .15s}
 .nb:hover{background:#ffffff14}
-
-
-
-.nb[aria-current=page]{background:#1565D8;color:#fff}
-
-
-
-.sos{margin-top:auto;background:#ffffff12;border-radius:12px;padding:12px;font-size:.84rem}
-
-
-
-main{overflow:auto;padding:0 28px 28px;outline:0}
-
-
-
-.top{display:flex;align-items:center;gap:10px;justify-content:flex-end;padding:16px 0}
-
-
-
-.pill,.ib{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:8px 14px;min-height:42px;font:inherit;font-size:.85rem;cursor:pointer}
-
-
-
+.nb[aria-current=page]{background:linear-gradient(90deg,#1565D8,#1A83D8);color:#fff;box-shadow:0 4px 14px #1565d855}
+.sos{margin-top:auto;background:#B3261E;border-radius:14px;padding:12px 14px;font-size:.84rem;color:#fff}
+.sos a{color:#fff;font-weight:800;font-size:1.05rem;text-decoration:none;display:block;margin-top:2px}
+main{overflow:auto;outline:0;max-width:1600px;width:100%;margin:0 auto;padding:0 clamp(14px,2.5vw,38px) 34px;scroll-behavior:smooth}
+.top{position:sticky;top:0;z-index:3;display:flex;align-items:center;gap:10px;padding:12px 0;margin-bottom:6px;background:var(--bg);background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px)}
+.sp{margin-left:auto}
+.pill,.ib{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:8px 14px;min-height:42px;font:inherit;font-size:.85rem;cursor:pointer;text-decoration:none;transition:border-color .15s,transform .15s}
+.pill:hover,.ib:hover{border-color:var(--pri)}
 .ib{width:42px;padding:0;justify-content:center}
+.pill.sosp{background:var(--badbg);color:var(--bad);border-color:var(--bad);font-weight:700}
+.scrim{display:none}
+.tabbar{display:none}
 
-
-
-.menu{display:inline-flex;margin-right:auto}
-
-
-
-/* Text */
-
-
-
-h1{font-size:1.7rem;line-height:1.2;margin:.1em 0}
-
-
-
-h2{font-size:1.1rem;margin:0 0 .4em}
-
-
-
+/* ===== Text ===== */
+h1{font-size:1.75rem;line-height:1.2;margin:.1em 0;letter-spacing:-.03em}
+h2{font-size:1.1rem;margin:0 0 .4em;letter-spacing:-.01em}
 .sub{color:var(--mut);margin:.2em 0 16px}
-
-
-
 small{color:var(--mut)}
-
-
-
 .bad{color:var(--bad)}
 
-
-
-.sm{width:20px;height:20px;vertical-align:-4px}
-
-
-
-/* Cards and buttons */
-
-
-
-.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;margin-bottom:14px}
-
-
-
+/* ===== Cards, buttons, forms ===== */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;margin-bottom:14px;box-shadow:var(--sh);animation:rise .35s ease both}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .note{background:var(--soft);border-radius:12px;padding:12px 14px;margin:10px 0}
-
-
-
 .urg{background:var(--badbg);color:var(--bad);border:1.5px solid var(--bad);border-radius:12px;padding:14px;font-weight:600;margin:10px 0}
-
-
-
 .two{display:grid;grid-template-columns:1fr 320px;gap:16px;align-items:start}
-
-
-
 .row{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
-
-
-
-.btn{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:10px 20px;border:1.5px solid var(--pri);border-radius:10px;background:var(--pri);color:var(--on);font:inherit;font-weight:600;text-decoration:none;cursor:pointer}
-
-
-
+.btn{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:10px 20px;border:1.5px solid var(--pri);border-radius:11px;background:var(--pri);color:var(--on);font:inherit;font-weight:600;text-decoration:none;cursor:pointer;transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translateY(-1px);box-shadow:0 6px 14px #1565d838}
 .btn.o{background:none;color:var(--pri)}
-
-
-
+.btn.red{background:var(--bad);border-color:var(--bad);color:#fff}
 .lnk{background:none;border:0;color:var(--pri);text-decoration:underline;font:inherit;cursor:pointer;padding:0}
-
-
-
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
-
-
-
-.chip{display:inline-flex;gap:6px;align-items:center;min-height:42px;padding:8px 16px;border:1.5px solid var(--line);border-radius:99px;background:var(--card);color:var(--ink);font:inherit;font-size:.9rem;cursor:pointer}
-
-
-
+.chip{display:inline-flex;gap:6px;align-items:center;min-height:42px;padding:8px 16px;border:1.5px solid var(--line);border-radius:99px;background:var(--card);color:var(--ink);font:inherit;font-size:.9rem;cursor:pointer;transition:border-color .15s}
+.chip:hover{border-color:var(--pri)}
 .chip[aria-pressed=true]{background:var(--pri);border-color:var(--pri);color:var(--on)}
-
-
-
-.tag{font-size:.72rem;font-weight:600;padding:3px 10px;border-radius:99px;background:var(--soft);color:var(--pri)}
-
-
-
+.tag{display:inline-block;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:99px;background:var(--soft);color:var(--pri);vertical-align:middle}
 .tag.g{background:var(--okbg);color:var(--ok)}.tag.w{background:var(--warnbg);color:var(--warn)}
-
-
-
 label{display:block;font-weight:600;font-size:.88rem;margin:14px 0 6px}
-
-
-
-.f{width:100%;min-height:46px;padding:10px 12px;border:1.5px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);font:inherit}
-
-
-
+.f{width:100%;min-height:46px;padding:10px 12px;border:1.5px solid var(--line);border-radius:11px;background:var(--card);color:var(--ink);font:inherit}
+.f:focus{border-color:var(--pri)}
 .tg{display:flex;gap:10px;align-items:center;font-weight:500;min-height:40px;margin:4px 0}
-
-
-
 .tg input{width:22px;height:22px}
-
-
-
 .st{display:flex;gap:8px;align-items:center;color:var(--mut);font-size:.88rem}
-
-
-
 .st.on{color:var(--pri);font-weight:600}
-
-
-
 .st i{width:24px;height:24px;border-radius:50%;background:var(--line);display:grid;place-items:center;font-style:normal;font-size:.8rem}
-
-
-
 .st.on i{background:var(--pri);color:var(--on)}
-
-
-
 details{border-top:1px solid var(--line);padding:8px 0;margin:8px 0}
-
-
-
 summary{cursor:pointer;font-weight:600;color:var(--pri);min-height:32px}
-
-
-
 dt{font-weight:600;font-size:.85rem}dd{margin:0 0 8px;color:var(--mut)}
-
-
-
 ul{padding-left:1.2em}
-
-
-
 .list{list-style:none;padding:0;margin:0}
+.rbw{display:flex;gap:6px;align-items:center}
+.rb{flex:1;display:flex;justify-content:space-between;gap:8px;text-align:left;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:6px 0;color:var(--ink);font:inherit;cursor:pointer}
+.rb:hover{border-color:var(--pri)}.rb b{font-size:.9rem;font-weight:600}
 
+/* ===== Triage meter ===== */
+.tri{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-radius:14px;margin:10px 0;border:1.5px solid}
+.tri .dot{width:14px;height:14px;border-radius:50%;margin-top:5px;flex:none;background:currentColor}
+.tri.ok{background:var(--okbg);color:var(--ok);border-color:var(--ok)}
+.tri.warn{background:var(--warnbg);color:var(--warn);border-color:var(--warn)}
+.tri.bad{background:var(--badbg);color:var(--bad);border-color:var(--bad)}
+.tri div{color:var(--ink)}.tri b{color:inherit}
 
-
-.rb{display:flex;justify-content:space-between;gap:8px;width:100%;text-align:left;background:var(--soft);border:0;border-radius:10px;padding:12px 14px;margin:6px 0;color:var(--ink);font:inherit;cursor:pointer}
-
-
-
-/* Home */
-
-
-
-.hero{display:flex;gap:20px;align-items:center;background:linear-gradient(120deg,var(--soft),var(--card));border:1px solid var(--line);border-radius:20px;padding:26px 28px}
-
-
-
-.hero>div{flex:1}
-
-
-
-.hero .art{width:120px;height:120px;color:var(--pri);fill:var(--soft);stroke-width:1}
-
-
-
-.ask{display:flex;gap:6px;align-items:center;background:var(--card);border:2px solid var(--line);border-radius:99px;padding:6px 6px 6px 20px;margin:12px 0}
-
-
-
+/* ===== Home ===== */
+.hero{position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);align-items:center;gap:clamp(14px,3vw,40px);min-height:250px;padding:clamp(22px,3.2vw,42px);border-radius:26px;border:1px solid var(--line);background:linear-gradient(112deg,var(--h1) 0%,var(--h2) 52%,var(--h3) 100%);box-shadow:0 12px 34px #164e7a14}
+.hero h1{font-size:clamp(1.75rem,3vw,2.6rem);letter-spacing:-.045em;margin:10px 0 4px}
+.hero h2{font-size:clamp(1.05rem,1.8vw,1.35rem);font-weight:650;margin:0 0 8px}
+.hero .sub{max-width:620px;line-height:1.65;margin:0 0 6px}
+.art{width:100%;height:auto;max-height:250px}
+.art .a1{fill:var(--soft)}.art .a2{fill:var(--card)}.art .a3{fill:var(--bad);opacity:.92}.art .a5{fill:var(--pri)}.art .a6{fill:var(--ok)}
+.art .a4{fill:none;stroke:#fff;stroke-width:7;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:420;stroke-dashoffset:420;animation:draw 2.4s .3s ease forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.art .fl{animation:float 5s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-6px)}}
+.ask{display:flex;gap:6px;align-items:center;background:var(--card);border:2px solid var(--line);border-radius:99px;padding:6px 6px 6px 18px;margin:16px 0 0;max-width:800px;min-height:60px;box-shadow:0 5px 18px #174b7610}
 .ask:focus-within{border-color:var(--pri)}
-
-
-
-.ask input{flex:1;min-width:0;border:0;background:none;color:var(--ink);font:inherit;font-size:1.05rem;padding:10px 0;outline:0}
-
-
-
+.ask input{flex:1;min-width:0;border:0;background:none;color:var(--ink);font:inherit;font-size:1rem;padding:10px 0;outline:0}
 .ask .ib{border:0;background:none}
+.ask .ib.rec{color:var(--bad);animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.4}}
+.go{width:46px;height:46px;flex:none;border:0;border-radius:50%;background:linear-gradient(135deg,var(--pri),var(--pri2));color:var(--on);display:grid;place-items:center;cursor:pointer;transition:transform .18s,box-shadow .18s}
+.go:hover{transform:translateY(-1px);box-shadow:0 5px 12px #1565d844}
+.go:disabled{opacity:.5;cursor:wait}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0 0}
+.stat{display:flex;gap:10px;align-items:center;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:var(--card);font-size:.86rem;font-weight:600}
+.stat svg{color:var(--ok)}
+.home-label{margin:26px 2px 12px}.home-label h2{font-size:1.12rem;margin:0}.home-label p{margin:3px 0 0;color:var(--mut);font-size:.88rem}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:0 0 8px}
+.act{display:flex;gap:14px;align-items:center;min-height:104px;padding:16px;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:17px;color:var(--ink);font:inherit;cursor:pointer;box-shadow:var(--sh);transition:transform .18s,border-color .18s,box-shadow .18s}
+.act:hover{transform:translateY(-3px);border-color:var(--pri)}
+.act .i{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;flex:none}
+.act .i svg{width:24px;height:24px}
+.c1{background:var(--c1b);color:var(--c1f)}.c2{background:var(--c2b);color:var(--c2f)}.c3{background:var(--c3b);color:var(--c3f)}.c4{background:var(--c4b);color:var(--c4f)}.c5{background:var(--c5b);color:var(--c5f)}.c6{background:var(--c6b);color:var(--c6f)}.c7{background:var(--c7b);color:var(--c7f)}.c8{background:var(--c8b);color:var(--c8f)}
+.act b{display:block;font-size:.95rem;line-height:1.3;margin-bottom:3px}.act span span{color:var(--mut);font-size:.84rem;line-height:1.4;display:block}
+.home-bottom{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(250px,1fr);gap:16px;align-items:stretch}
+.home-bottom .card{margin:0;border-radius:18px;padding:20px}
+.tip-card{background:linear-gradient(135deg,var(--card),var(--okbg))}
+.tip-art{float:right;width:84px;height:84px;margin:0 0 8px 12px}
+.home-safety{display:flex;gap:10px;align-items:flex-start;margin:20px 0 0;padding:13px 15px;border:1px solid var(--line);border-radius:14px;color:var(--mut);font-size:.83rem;background:var(--card)}
+.home-safety svg{color:var(--ok);margin-top:2px}
+.helps{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.hl{display:flex;gap:14px;align-items:center;padding:14px 16px;border:1px solid var(--line);border-radius:14px;background:var(--card);text-decoration:none;color:var(--ink)}
+.hl:hover{border-color:var(--bad)}
+.hl .n{font-size:1.5rem;font-weight:800;color:var(--bad);min-width:70px;letter-spacing:-.02em}
+.hl small{display:block}
 
-
-
-.go{width:46px;height:46px;border:0;border-radius:50%;background:var(--pri);color:var(--on);display:grid;place-items:center;cursor:pointer}
-
-
-
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:18px 0}
-
-
-
-.act{display:flex;gap:14px;align-items:flex-start;min-height:92px;padding:16px;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:var(--r);color:var(--ink);font:inherit;cursor:pointer}
-
-
-
-.act:hover{border-color:var(--pri)}
-
-
-
-.act .i{width:44px;height:44px;border-radius:12px;background:var(--soft);color:var(--pri);display:grid;place-items:center;flex:none}
-
-
-
-.act b{display:block}.act span{color:var(--mut);font-size:.86rem}
-
-
-
-/* Chat */
-
-
-
-.m{max-width:min(720px,92%);padding:12px 16px;border-radius:16px;margin:10px 0}
-
-
-
-.m.u{background:var(--pri);color:var(--on);margin-left:auto;border-bottom-right-radius:4px}
-
-
-
-.m.a{background:var(--card);border:1px solid var(--line);border-bottom-left-radius:4px}
-
-
-
+/* ===== Chat ===== */
+#msgs{padding-bottom:8px}
+.mr{display:flex;gap:10px;align-items:flex-start;margin:12px 0;animation:rise .3s ease both}
+.mr.u{justify-content:flex-end}
+.av{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--pri),var(--pri2));color:var(--on);display:grid;place-items:center;flex:none}
+.m{max-width:min(720px,92%);padding:12px 16px;border-radius:18px}
+.m.u{background:linear-gradient(135deg,var(--pri),#1A83D8);color:var(--on);border-bottom-right-radius:4px}
+:root[data-theme=dark] .m.u{background:var(--pri)}
+.m.a{background:var(--card);border:1px solid var(--line);border-bottom-left-radius:4px;box-shadow:var(--sh)}
 .m p{margin:.4em 0}.m ul{margin:.4em 0}
-
-
-
-.bar{position:sticky;bottom:0}
-
-
-
+.mact{display:flex;gap:14px;margin-top:6px}
+.mact button{background:none;border:0;color:var(--mut);font:inherit;font-size:.8rem;cursor:pointer;padding:2px 0}
+.mact button:hover{color:var(--pri)}
+.dots i{display:inline-block;width:8px;height:8px;margin:0 2px;border-radius:50%;background:var(--mut);animation:bounce 1s infinite}
+.dots i:nth-child(2){animation-delay:.15s}.dots i:nth-child(3){animation-delay:.3s}
+@keyframes bounce{40%{transform:translateY(-5px)}}
+.bar{position:sticky;bottom:0;padding:8px 0 10px;background:linear-gradient(180deg,transparent,var(--bg) 22%)}
+.bar .chips{flex-wrap:nowrap;overflow-x:auto;margin:0 0 4px;padding-bottom:2px}.bar .chip{flex:none;min-height:38px;font-size:.85rem}
+.bar .ask{margin:6px 0 0;max-width:none}
+.hint{display:block;text-align:center;margin-top:6px;font-size:.75rem}
 .foot{color:var(--mut);font-size:.8rem;text-align:center;margin-top:24px}
+#toast{display:none;position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--navy);color:#fff;padding:12px 18px;border-radius:12px;z-index:60;max-width:90%;box-shadow:0 8px 24px #0005}
+:root[data-theme=dark] #toast{background:#2A4468}
+.res{margin-top:10px;font-size:1.05rem}
+/* Reduce motion setting + OS setting */
+[data-calm] *,[data-calm] *::before,[data-calm] *::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}
+[data-calm] .art .a4{stroke-dashoffset:0}
+@media(prefers-reduced-motion:reduce){.art .a4{animation:none;stroke-dashoffset:0}*{scroll-behavior:auto!important}}
 
-
-
-\#toast{display:none;position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--navy);color:#fff;padding:12px 18px;border-radius:12px;z-index:9;max-width:90%}
-
-
-
-[data-calm] \\*{transition:none!important;animation:none!important}
-
-
-
+/* ===== Tablet and phone ===== */
+@media(max-width:1100px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero{grid-template-columns:1fr}.hero .art{display:none}}
 @media(max-width:860px){
-
-
-
 .app{grid-template-columns:1fr}
-
-
-
-.sb{position:fixed;inset:0 auto 0 0;width:270px;z-index:5;padding-top:calc(18px + env(safe-area-inset-top,0px));transform:translateX(-100%);visibility:hidden;transition:transform .2s}
-
-
-
+.sb{position:fixed;inset:0 auto 0 0;width:280px;z-index:20;padding-top:calc(18px + env(safe-area-inset-top,0px));transform:translateX(-100%);visibility:hidden;transition:transform .2s}
 .sb.open{transform:none;visibility:visible}
+.scrim.on{display:block;position:fixed;inset:0;background:#0008;z-index:19}
+.two{grid-template-columns:1fr}
+.tabbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:10;background:var(--card);border-top:1px solid var(--line);padding:4px 4px calc(4px + env(safe-area-inset-bottom,0px))}
+.tabbar button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;min-height:52px;border:0;background:none;color:var(--mut);font:inherit;font-size:.68rem;cursor:pointer;border-radius:10px}
+.tabbar button[aria-current=page]{color:var(--pri);font-weight:700}
+.tabbar button.e{color:var(--bad)}
+main{padding-bottom:84px}
+.bar{bottom:60px}
+.pill.sosp{display:none}}
+@media(max-width:640px){
+.hero{padding:22px 18px;min-height:0;border-radius:20px}.hero h1{font-size:1.8rem}
+.ask{padding-left:13px;gap:2px}.ask .ib{width:36px}
+.stats{grid-template-columns:1fr}
+.grid{grid-template-columns:1fr;gap:10px}.act{min-height:84px;padding:14px}
+.home-bottom{grid-template-columns:1fr}.home-bottom .card{padding:16px}
+.top .pill span.l{max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}
 
-
-
-.menu{display:inline-flex}main{padding:0 14px 24px}
-
-
-
-.two{grid-template-columns:1fr}.hero{padding:18px}.hero .art{display:none}}
-
-
-
-
-
-/* ===== Refined patient-first home page ===== */
-
-main{max-width:1600px;width:100%;margin:0 auto;padding:0 clamp(16px,2.5vw,38px) 34px}
-
-.top{position:sticky;top:0;z-index:3;background:var(--bg);padding:14px 0;margin-bottom:8px}
-
-.hero{position:relative;overflow:hidden;min-height:240px;gap:clamp(18px,3vw,44px);padding:clamp(22px,3.2vw,42px);border-radius:24px;background:linear-gradient(112deg,#e5f2ff 0%,#f6fbff 52%,#e7f7f2 100%);box-shadow:0 12px 34px #164e7a12}
-
-:root[data-theme=dark] .hero{background:linear-gradient(112deg,#132e4c,#10263a 58%,#12352f)}
-
-.hero>div{min-width:0;max-width:760px}.hero h1{font-size:clamp(1.75rem,3vw,2.5rem);letter-spacing:-.045em;margin:8px 0;color:var(--ink)}
-
-.hero h2{font-size:clamp(1.05rem,1.8vw,1.35rem);font-weight:650;margin:0 0 8px}.hero .sub{max-width:620px;line-height:1.65;margin:0 0 16px}
-
-.hero .art{width:min(34%,330px);height:auto;max-height:235px;object-fit:cover;display:block;flex:0 0 30%;border-radius:22px}
-
-.hero .ask{max-width:800px;}.ask{max-width:800px;min-height:60px;box-shadow:0 5px 18px #174b7610;margin:18px 0 0;padding-left:18px;border-color:#c8def5}.ask input{font-size:1rem}
-
-.go{width:46px;height:46px;transition:transform .18s,box-shadow .18s}.go:hover{transform:translateY(-1px);box-shadow:0 5px 12px #1565d844}
-
-.home-label{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:26px 2px 12px}.home-label h2{font-size:1.12rem;margin:0;letter-spacing:-.02em}.home-label p{margin:3px 0 0;color:var(--mut);font-size:.88rem}
-
-.grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:0 0 24px}.act{min-height:112px;align-items:center;padding:18px;gap:14px;border-radius:17px;box-shadow:0 4px 14px #153c6508;transition:transform .18s,border-color .18s,box-shadow .18s}
-
-.act:hover{transform:translateY(-2px);box-shadow:0 10px 24px #153c6512;border-color:#9cc7f4}.act .i{width:48px;height:48px;border-radius:15px;background:#e7f1ff;color:#1766c9}
-
-.act:nth-child(2) .i{background:#e3f7ef;color:#168264}.act:nth-child(3) .i{background:#e4f3ff;color:#1677b8}.act:nth-child(4) .i{background:#fff0d9;color:#a65c0b}.act:nth-child(5) .i{background:#e9e6ff;color:#6750c9}.act:nth-child(6) .i{background:#ffe9e1;color:#c25b36}
-
-.act b{font-size:.96rem;line-height:1.35;margin-bottom:5px}.act span span{display:block;line-height:1.45}
-
-.home-bottom{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(250px,1fr);gap:16px;align-items:stretch}.home-bottom .card{margin:0;border-radius:18px;padding:20px;box-shadow:0 4px 16px #153c6508}
-
-.tip-card{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--card),var(--okbg))}.tip-card .tip-art{float:right;width:86px;height:86px;object-fit:cover;margin:0 0 8px 12px;border-radius:16px}
-
-.recent-home .rb{background:var(--bg);border:1px solid var(--line);margin-top:9px}.recent-home .rb b{font-size:.9rem;font-weight:600}
-
-.home-safety{display:flex;gap:10px;align-items:flex-start;margin:20px 0 0;padding:13px 15px;border:1px solid var(--line);border-radius:14px;color:var(--mut);font-size:.83rem}.home-safety svg{color:var(--ok);margin-top:2px}
-
-@media(min-width:1300px){.hero{min-height:260px}.hero .art{max-height:250px}}@media(max-width:1050px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero .art{width:28%}}
-
-@media(max-width:640px){main{padding:0 12px 24px}.top{padding:10px 0}.hero{padding:22px 18px;min-height:0;border-radius:19px}.hero .art{display:none}.hero h1{font-size:1.8rem}.ask{padding-left:13px;gap:2px}.ask .ib{width:36px}.grid{grid-template-columns:1fr;gap:10px;margin-bottom:18px}.act{min-height:84px;padding:14px}.act .i{width:44px;height:44px}.home-label{margin-top:21px}.home-bottom{grid-template-columns:1fr}.home-bottom .card{padding:16px}.two{grid-template-columns:1fr}}
-
-
-
-
-/* ===== Centered assistant workspace and responsive chat ===== */
-#v{width:100%;max-width:1240px;margin-inline:auto}
-#msgs{width:100%;max-width:820px;margin:0 auto 18px}
-#msgs:empty{display:none}
-#v:has(#msgs) > h1,#v:has(#msgs) > .sub{text-align:center}
-#v:has(#msgs) .chips{max-width:820px;margin:16px auto;justify-content:center}
-#v:has(#msgs) .bar{width:100%;max-width:860px;margin:18px auto 0;padding:10px 12px 14px;background:var(--bg)}
-#v:has(#msgs) .ask{max-width:100%;width:100%;margin:0 auto;box-shadow:0 8px 26px #174b7612}
-#v:has(#msgs) .foot{max-width:820px;margin:24px auto}
-.chat-welcome{text-align:center;max-width:720px;margin:12px auto 22px;color:var(--mut)}
-.chat-welcome h2{color:var(--ink);font-size:1.35rem}
-#v:has(#msgs) .chat-examples{display:flex;flex-wrap:wrap;justify-content:center;gap:9px;max-width:820px;margin:14px auto 20px}
-#v:has(#msgs) .chat-examples .chip{background:var(--card)}
-@media(max-width:640px){#v:has(#msgs) .bar{padding:8px 0 12px}#msgs{max-width:100%}.m{max-width:96%}}
-
+/* ===== Printing (symptom result, summaries) ===== */
+@media print{.sb,.top,.tabbar,.scrim,.noprint,#toast,.bar{display:none!important}.app{display:block;height:auto}main{overflow:visible;padding:0}.card{box-shadow:none;break-inside:avoid}body{background:#fff}}
 </style>
-
-
-
+<style id="skin">
+/* ===== SKIN v2: new look, same content ===== */
+:root{--pri:#2563EB;--pri2:#0EA5A4;--bg:#F3F7FF;--line:#E1EAF6;--r:20px;--sh:0 1px 2px #0f274008,0 10px 30px -10px #1d4ed82e;--shl:0 2px 4px #0f274010,0 22px 44px -14px #1d4ed84d;--fd:"Plus Jakarta Sans",Inter,system-ui,sans-serif}
+:root[data-theme=dark]{--pri:#6FAEFF;--pri2:#4CD1D9;--bg:#0A1626;--line:#26405F;--sh:0 1px 2px #0004,0 10px 30px -10px #0008;--shl:0 22px 44px -14px #000a}
+body{background-color:var(--bg);background-image:radial-gradient(900px 520px at 88% -8%,#BFDBFE80,transparent 60%),radial-gradient(760px 520px at -6% 18%,#99F6E04d,transparent 60%);background-attachment:fixed}
+:root[data-theme=dark] body{background-image:radial-gradient(900px 520px at 88% -8%,#1E3A8A55,transparent 60%),radial-gradient(760px 520px at -6% 18%,#0F766E40,transparent 60%)}
+h1,h2,.logo{font-family:var(--fd)}h1{font-weight:800;letter-spacing:-.035em}h2{font-weight:700}
+main{scrollbar-width:thin}
+/* sidebar: floating glossy panel */
+.app{grid-template-columns:278px minmax(0,1fr)}
+.sb{margin:14px 0 14px 14px;border-radius:28px;padding:20px 12px;background:linear-gradient(170deg,#0B2F5C 0%,#0B4A86 58%,#0E7C86 135%);box-shadow:0 26px 50px -20px #0b2f5ccc}
+:root[data-theme=dark] .sb{background:linear-gradient(170deg,#0A1B30,#0C2C4C 60%,#0B4650 140%)}
+.logo{padding:6px 10px 22px;font-size:1.12rem}.logo .lg{width:44px;height:44px;border-radius:15px;box-shadow:0 10px 22px #0007}
+.nb{border-radius:15px;min-height:46px;font-weight:500;transition:background .2s,transform .2s}
+.nb:hover{background:#ffffff1c;transform:translateX(3px)}
+.nb[aria-current=page]{background:linear-gradient(90deg,#ffffff30,#ffffff12);box-shadow:inset 0 0 0 1px #ffffff33;font-weight:700}
+.nb[aria-current=page] svg{color:#7FF0E2}
+.sos{background:linear-gradient(135deg,#E5484D,#B3261E);border-radius:20px;box-shadow:0 14px 28px -10px #b3261eaa}
+/* top bar */
+.top{background:color-mix(in srgb,var(--bg) 70%,transparent);backdrop-filter:blur(14px);padding:16px 0 10px}
+.pill,.ib{background:color-mix(in srgb,var(--card) 82%,transparent);backdrop-filter:blur(10px);box-shadow:var(--sh)}
+.pill.sosp{background:var(--badbg)}
+/* cards, buttons, chips, inputs */
+.card{border-radius:var(--r);box-shadow:var(--sh)}
+.note{border-radius:16px;background:linear-gradient(135deg,var(--soft),color-mix(in srgb,var(--soft) 45%,var(--card)))}
+.btn{border:0;border-radius:14px;padding:11px 22px;background:linear-gradient(135deg,var(--pri),var(--pri2));color:var(--on);box-shadow:0 12px 24px -10px #2563ebaa}
+.btn:hover{transform:translateY(-2px);box-shadow:0 18px 30px -12px #2563ebbb}
+.btn.o{background:var(--card);color:var(--pri);box-shadow:inset 0 0 0 1.5px var(--pri)}
+.btn.red{background:linear-gradient(135deg,#E5484D,#B3261E);color:#fff;box-shadow:0 12px 24px -10px #b3261eaa}
+.chip{box-shadow:var(--sh);font-weight:500}.chip:hover{transform:translateY(-1px)}
+.chip[aria-pressed=true]{background:linear-gradient(135deg,var(--pri),var(--pri2));border-color:transparent;color:var(--on)}
+.f{border-radius:14px}.f:focus,select.f:focus{outline:0;border-color:var(--pri);box-shadow:0 0 0 4px color-mix(in srgb,var(--pri) 22%,transparent)}
+.rb{border-radius:14px}.tri{border-radius:18px}.urg{border-radius:16px}
+/* hero: deep gradient banner */
+.hero{border:0;border-radius:34px;min-height:310px;padding:clamp(26px,4vw,56px);color:#fff;background:linear-gradient(120deg,#0B3A78 0%,#1D5FD6 55%,#0EA5A4 125%);box-shadow:0 34px 60px -26px #1d4ed8bb}
+:root[data-theme=dark] .hero{background:linear-gradient(120deg,#0B2A52,#123F86 55%,#0B6F73 125%)}
+.hero::before,.hero::after{content:"";position:absolute;border-radius:50%;pointer-events:none}
+.hero::before{width:400px;height:400px;right:-90px;top:-150px;background:radial-gradient(circle,#ffffff30,transparent 65%)}
+.hero::after{width:320px;height:320px;left:32%;bottom:-180px;background:radial-gradient(circle,#7FF0E24d,transparent 65%)}
+.hero>*{position:relative;z-index:1}
+.hero h1{color:#fff;font-size:clamp(2rem,3.6vw,3.1rem)}.hero h2{color:#DCEBFF;font-weight:600}.hero .sub{color:#CFE0FA}
+.hero .tag.g{background:#ffffff26;color:#fff;letter-spacing:.06em;backdrop-filter:blur(6px)}
+.hero .chip{background:#ffffff1f;color:#fff;border-color:#ffffff40;box-shadow:none;backdrop-filter:blur(6px)}
+.hero .chip:hover{background:#ffffff33}
+.hero .ask{border:0;box-shadow:0 22px 44px -16px #000a}
+.art .a1{fill:#ffffff1f}.art .a2{fill:#ffffff30}.art .a3{fill:#FF5C6C;opacity:1}.art .a5{fill:#14C8B8}.art .a6{fill:#34D399}
+.go{background:linear-gradient(135deg,var(--pri),var(--pri2))}
+/* stat badges */
+.stat{border-radius:18px;box-shadow:var(--sh);padding:14px 16px}
+.stat svg{width:22px;height:22px;padding:9px;box-sizing:content-box;border-radius:13px;background:var(--okbg);color:var(--ok)}
+/* section titles */
+.home-label{margin:32px 2px 14px}
+.home-label h2{display:flex;align-items:center;gap:10px;font-size:1.25rem}
+.home-label h2::before{content:"";width:5px;height:22px;border-radius:4px;background:linear-gradient(var(--pri),var(--pri2))}
+/* service tiles */
+.act{position:relative;overflow:hidden;border-radius:24px;padding:20px}
+.act::after{content:"→";position:absolute;right:18px;top:14px;color:var(--pri);font-weight:700;opacity:0;transform:translateX(-8px);transition:.2s}
+.act:hover{transform:translateY(-5px);box-shadow:var(--shl);border-color:color-mix(in srgb,var(--pri) 45%,var(--line))}
+.act:hover::after{opacity:1;transform:none}
+.act .i{width:56px;height:56px;border-radius:19px;box-shadow:inset 0 0 0 1px #ffffff40}.act .i svg{width:26px;height:26px}
+.c1{background:linear-gradient(135deg,var(--c1b),color-mix(in srgb,var(--c1f) 22%,var(--c1b)))}.c2{background:linear-gradient(135deg,var(--c2b),color-mix(in srgb,var(--c2f) 22%,var(--c2b)))}.c3{background:linear-gradient(135deg,var(--c3b),color-mix(in srgb,var(--c3f) 22%,var(--c3b)))}.c4{background:linear-gradient(135deg,var(--c4b),color-mix(in srgb,var(--c4f) 22%,var(--c4b)))}.c5{background:linear-gradient(135deg,var(--c5b),color-mix(in srgb,var(--c5f) 22%,var(--c5b)))}.c6{background:linear-gradient(135deg,var(--c6b),color-mix(in srgb,var(--c6f) 22%,var(--c6b)))}.c7{background:linear-gradient(135deg,var(--c7b),color-mix(in srgb,var(--c7f) 22%,var(--c7b)))}.c8{background:linear-gradient(135deg,var(--c8b),color-mix(in srgb,var(--c8f) 22%,var(--c8b)))}
+.home-bottom .card{border-radius:24px}
+.tip-card{background:linear-gradient(135deg,var(--card),var(--okbg))}
+.home-safety{border-radius:18px;background:var(--card);box-shadow:var(--sh)}
+.hl{border-radius:18px;box-shadow:var(--sh);transition:transform .2s,border-color .2s}.hl:hover{transform:translateY(-3px)}
+/* chat */
+.m.a{border-radius:20px 20px 20px 6px;box-shadow:var(--sh)}
+.m.u,:root[data-theme=dark] .m.u{border-radius:20px 20px 6px 20px;background:linear-gradient(135deg,var(--pri),var(--pri2));color:var(--on);box-shadow:0 12px 24px -12px #2563ebaa}
+.av{box-shadow:0 8px 16px -6px #2563eb99}
+.bar .ask{box-shadow:var(--shl)}
+@media(max-width:860px){
+.sb{margin:0;border-radius:0 28px 28px 0;height:auto}
+.tabbar{left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom,0px));border:1px solid var(--line);border-radius:26px;box-shadow:var(--shl);background:color-mix(in srgb,var(--card) 90%,transparent);backdrop-filter:blur(14px)}
+.tabbar button[aria-current=page]{background:var(--soft)}
+.bar{bottom:80px}main{padding-bottom:108px}}
+@media(max-width:640px){.hero{border-radius:26px}}
+/* ===== Welcome screen ===== */
+#splash{position:fixed;inset:0;z-index:100;display:grid;place-items:center;overflow:hidden;color:#fff;background:linear-gradient(135deg,#061B38 0%,#0B3A78 45%,#0E8C95 100%);transition:opacity .6s ease,transform .6s ease,visibility .6s}
+#splash.out{opacity:0;visibility:hidden;transform:scale(1.05)}
+.sp-orb{position:absolute;border-radius:50%;filter:blur(60px);opacity:.55;animation:orb 9s ease-in-out infinite}
+.o1{width:380px;height:380px;background:#2F7BEA;left:-90px;top:-80px}.o2{width:420px;height:420px;background:#14C8B8;right:-120px;bottom:-120px;animation-delay:-3s}.o3{width:240px;height:240px;background:#7C5CFF;right:20%;top:8%;opacity:.35;animation-delay:-6s}
+@keyframes orb{50%{transform:translate(30px,-24px) scale(1.1)}}
+.sp-box{position:relative;text-align:center;padding:24px;max-width:600px}
+.sp-logo{width:116px;height:116px;filter:drop-shadow(0 20px 40px #0009);animation:pop .9s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes pop{from{opacity:0;transform:scale(.4) rotate(-12deg)}}
+.sp-pulse{stroke-dasharray:140;stroke-dashoffset:140;animation:draw 1.6s .6s ease forwards}
+.sp-name{font:800 clamp(2.3rem,9vw,4rem)/1.1 var(--fd);letter-spacing:-.04em;margin:24px 0 8px}
+.sp-name span{display:inline-block;opacity:0;transform:translateY(20px);animation:letter .6s ease forwards}
+.sp-name .t{color:#7FF0E2}
+@keyframes letter{to{opacity:1;transform:none}}
+.sp-tag{font-size:1.05rem;color:#CFE3FF;letter-spacing:.16em;text-transform:uppercase;margin:0 0 26px;opacity:0;animation:letter .7s 1.4s forwards}
+.sp-bar{width:230px;height:4px;border-radius:9px;background:#ffffff26;margin:0 auto 28px;overflow:hidden}
+.sp-bar i{display:block;height:100%;background:linear-gradient(90deg,#7FF0E2,#fff);transform:translateX(-100%);animation:load 3.2s .2s ease forwards}
+@keyframes load{to{transform:none}}
+.sp-btn{display:inline-flex;gap:10px;align-items:center;border:0;border-radius:99px;padding:15px 32px;font:700 1.05rem var(--fd);color:#0B2F5C;background:#fff;cursor:pointer;box-shadow:0 20px 40px -14px #000b;transition:transform .2s;opacity:0;animation:letter .7s 1.8s forwards}
+.sp-btn:hover{transform:translateY(-3px)}
+.sp-hint{display:block;margin-top:18px;color:#9FC2EE;opacity:0;animation:letter .7s 2.1s forwards}
+[data-calm] .sp-name span,[data-calm] .sp-tag,[data-calm] .sp-btn,[data-calm] .sp-hint{opacity:1;transform:none}
+[data-calm] .sp-pulse{stroke-dashoffset:0}[data-calm] .sp-bar i{transform:none}
+@media(prefers-reduced-motion:reduce){.sp-name span,.sp-tag,.sp-btn,.sp-hint{opacity:1;transform:none;animation:none}.sp-pulse{animation:none;stroke-dashoffset:0}.sp-bar i{animation:none;transform:none}.sp-orb{animation:none}}
+</style>
 </head>
-
-
-
 <body>
-
-
-
+<div id="splash" role="dialog" aria-label="Welcome to SwasthyaSaathi">
+<div class="sp-orb o1"></div><div class="sp-orb o2"></div><div class="sp-orb o3"></div>
+<div class="sp-box">
+<svg class="sp-logo" viewBox="0 0 120 120" aria-hidden="true"><defs><linearGradient id="lgG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3B8CFF"/><stop offset="1" stop-color="#14C8B8"/></linearGradient></defs><rect width="120" height="120" rx="34" fill="url(#lgG)"/><path d="M60 92S26 71 26 47a17 17 0 0134-9 17 17 0 0134 9c0 24-34 45-34 45z" fill="#fff" fill-opacity=".95"/><path class="sp-pulse" d="M34 56h16l7-14 11 30 8-16h10" fill="none" stroke="url(#lgG)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<p class="sp-name" id="spName" aria-label="SwasthyaSaathi"></p>
+<p class="sp-tag">Your Health. Our Support.</p>
+<div class="sp-bar" aria-hidden="true"><i></i></div>
+<button class="sp-btn" data-open>Open SwasthyaSaathi <span aria-hidden="true">→</span></button>
+<small class="sp-hint">Press Enter to continue · Emergency: call 112</small>
+</div></div>
 <a class="skip" href="#v">Skip to content</a>
-
-
-
 <div class="app" id="app"><nav class="sb" id="sb" aria-label="Main menu"></nav><main id="v" tabindex="-1"></main></div>
-
-
-
+<div class="scrim" id="scrim" data-a="closesb"></div>
+<nav class="tabbar" id="tb" aria-label="Quick navigation"></nav>
 <div id="toast" role="status" aria-live="polite"></div>
-
-
+<noscript><p style="padding:20px">Please turn on JavaScript to use SwasthyaSaathi. In an emergency call 112.</p></noscript>
 
 <script>
-
-
-
 // ===== Small helpers =====
-
-
-
 const $=s=>document.querySelector(s);
-
-
-
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-
-
-
-// Turns safe text into simple HTML: \\*\\*bold\\*\\*, "- " lists, paragraphs
-
-
-
-const md=s=>{const safe=esc(String(s||""));return safe
-.replace(/\\\*\\\*(.+?)\\\*\\\*/g,"<b>$1</b>")
-.replace(/\*\*(.+?)\*\*/g,"<b>$1</b>")
-.split(/\n{2,}/).map(p=>/^- /.test(p)?'<ul>'+p.split("\n").map(x=>"<li>"+x.replace(/^- /,"")+"</li>").join("")+"</ul>":"<p>"+p.replace(/\n/g,"<br>")+"</p>").join("");};
-
-
-
-const I={home:"M3 11l9-8 9 8M5 10v10h14V10",chat:"M4 5h16v11H9l-5 4z",pulse:"M3 12h4l2-6 4 12 2-6h6",pin:"M12 21s-7-6-7-11a7 7 0 0114 0c0 5-7 11-7 11zM12 8a2 2 0 100 4 2 2 0 000-4z",bank:"M4 21V9l8-5 8 5v12M9 21v-6h6v6",rupee:"M7 5h10M7 9h10M7 5c5 0 5 7 0 7H7l7 7",user:"M12 12a4 4 0 100-8 4 4 0 000 8zM4 21a8 8 0 0116 0",clock:"M12 21a9 9 0 100-18 9 9 0 000 18zM12 7v5l3 2",mark:"M6 3h12v18l-6-4-6 4z",gear:"M12 15a3 3 0 100-6 3 3 0 000 6zM12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2",mic:"M12 15a3 3 0 003-3V6a3 3 0 00-6 0v6a3 3 0 003 3zM6 11a6 6 0 0012 0M12 17v4",send:"M3 11l18-8-8 18-2-8z",menu:"M4 6h16M4 12h16M4 18h16",star:"M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z",heart:"M12 21s-8-5-8-11a4.5 4.5 0 018-2.8A4.5 4.5 0 0120 10c0 6-8 11-8 11z",moon:"M20 14A8 8 0 0110 4a8 8 0 1010 10z",warn:"M12 3l10 18H2zM12 10v5M12 18v.01"};
-
-
-
-const ic=(n,c="")=>`<svg class="${c}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${I[n]}"/></svg>`;
-
-
-
+// Safe text -> simple HTML. Supports **bold**, "- " bullets, paragraphs and line breaks.
+const md=s=>{const out=[];let ul=null,p=[];
+const fp=()=>{if(p.length){out.push("<p>"+p.join("<br>")+"</p>");p=[]}};
+const fu=()=>{if(ul){out.push("<ul>"+ul.map(x=>"<li>"+x+"</li>").join("")+"</ul>");ul=null}};
+const inl=x=>esc(x).replace(/\*\*(.+?)\*\*/g,"<b>$1</b>");
+String(s).split("\n").forEach(l=>{if(/^\s*[-•] /.test(l)){fp();(ul=ul||[]).push(inl(l.replace(/^\s*[-•] /,"")))}else if(!l.trim()){fp();fu()}else{fu();p.push(inl(l))}});
+fp();fu();return out.join("")};
+const I={home:"M3 11l9-8 9 8M5 10v10h14V10",chat:"M4 5h16v11H9l-5 4z",pulse:"M3 12h4l2-6 4 12 2-6h6",pin:"M12 21s-7-6-7-11a7 7 0 0114 0c0 5-7 11-7 11zM12 8a2 2 0 100 4 2 2 0 000-4z",bank:"M4 21V9l8-5 8 5v12M9 21v-6h6v6",rupee:"M7 5h10M7 9h10M7 5c5 0 5 7 0 7H7l7 7",user:"M12 12a4 4 0 100-8 4 4 0 000 8zM4 21a8 8 0 0116 0",clock:"M12 21a9 9 0 100-18 9 9 0 000 18zM12 7v5l3 2",mark:"M6 3h12v18l-6-4-6 4z",gear:"M12 15a3 3 0 100-6 3 3 0 000 6zM12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2",mic:"M12 15a3 3 0 003-3V6a3 3 0 00-6 0v6a3 3 0 003 3zM6 11a6 6 0 0012 0M12 17v4",send:"M3 11l18-8-8 18-2-8z",menu:"M4 6h16M4 12h16M4 18h16",star:"M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z",heart:"M12 21s-8-5-8-11a4.5 4.5 0 018-2.8A4.5 4.5 0 0120 10c0 6-8 11-8 11z",moon:"M20 14A8 8 0 0110 4a8 8 0 1010 10z",sun:"M12 17a5 5 0 100-10 5 5 0 000 10zM12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4",warn:"M12 3l10 18H2zM12 10v5M12 18v.01",phone:"M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z",copy:"M9 9h11v11H9zM5 15H4V4h11v1",speaker:"M4 9v6h4l5 4V5L8 9zM16 9a4 4 0 010 6M18.5 6.5a8 8 0 010 11",trash:"M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3",calc:"M6 3h12a1 1 0 011 1v16a1 1 0 01-1 1H6a1 1 0 01-1-1V4a1 1 0 011-1zM8 7h8M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01",shield:"M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z",print:"M6 9V3h12v6M6 18H4v-7h16v7h-2M7 14h10v7H7z",globe:"M12 21a9 9 0 100-18 9 9 0 000 18zM3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18",plus:"M12 5v14M5 12h14"};
+const ic=(n,c="")=>`<svg class="ic ${c}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${I[n]}"/></svg>`;
 const opts=(a,v)=>a.map(x=>`<option${x===v?" selected":""}>${esc(x)}</option>`).join("");
-
-
-
 const chip=(o,k,v,a,on)=>`<button class="chip" data-a="${a}" data-o="${o}" data-k="${k}" data-v="${esc(v)}" aria-pressed="${on}">${esc(v)}</button>`;
-
-
-
 const ago=ts=>{const m=(Date.now()-ts)/6e4;return m<2?"just now":m<60?Math.round(m)+" min ago":m<1440?Math.round(m/60)+" hours ago":Math.round(m/1440)+" days ago"};
-
-
-
 function toast(m){const e=$("#toast");e.textContent=m;e.style.display="block";clearTimeout(toast.t);toast.t=setTimeout(()=>e.style.display="none",4500)}
-
-
-
-
-
-
+function copy(text){const ok=()=>toast("Copied.");try{if(navigator.clipboard&&window.isSecureContext)return navigator.clipboard.writeText(text).then(ok,fb)}catch{}fb();
+function fb(){try{const a=document.createElement("textarea");a.value=text;a.style.position="fixed";a.style.opacity="0";document.body.appendChild(a);a.select();document.execCommand("copy");a.remove();ok()}catch{toast("Could not copy. Please select the text and copy it.")}}}
 
 // ===== Saved settings (kept on this device only) =====
-
-
-
 const D={theme:"system",font:100,calm:0,hc:0,voice:1,lang:"en",state:"",dist:"",keep:1,saved:[],chats:[]};
-
-
-
 let st={...D};
-
-
-
-try{st={...D,...JSON.parse(localStorage.getItem("ss"))}}catch{}
-
-
-
+try{const x=JSON.parse(localStorage.getItem("ss"));if(x&&typeof x==="object")st={...D,...x}}catch{}
+if(!Array.isArray(st.saved))st.saved=[];if(!Array.isArray(st.chats))st.chats=[];
+st.font=Math.min(140,Math.max(90,+st.font||100));
 const save=()=>{try{localStorage.setItem("ss",JSON.stringify(st))}catch{}};
-
-
-
-function applySet(){const r=document.documentElement;st.theme==="system"?r.removeAttribute("data-theme"):r.dataset.theme=st.theme;r.style.fontSize=st.font+"%";r.toggleAttribute("data-calm",!!st.calm);r.toggleAttribute("data-hc",!!st.hc);r.lang=st.lang}
-
-
-
-
-
-
+const dq=window.matchMedia?matchMedia("(prefers-color-scheme: dark)"):{matches:false};
+const isDark=()=>st.theme==="dark"||(st.theme==="system"&&dq.matches);
+function applySet(){const r=document.documentElement;r.dataset.theme=isDark()?"dark":"light";r.style.fontSize=st.font+"%";r.toggleAttribute("data-calm",!!st.calm);r.toggleAttribute("data-hc",!!st.hc);r.lang=st.lang;const m=document.querySelector("meta[name=theme-color]");if(m)m.content=isDark()?"#0A1626":"#1565D8"}
+if(dq.addEventListener)dq.addEventListener("change",()=>{if(st.theme==="system"){applySet();render()}});
 
 // ===== Languages: add a new language by adding one object here =====
-
-
-
-const L={en:{home:"Home",chat:"AI Health Assistant",sym:"Check Symptoms",hosp:"Nearby Hospitals",sch:"Government Schemes",fin:"Financial Assistance",guide:"Personalized Guidance",rec:"Recent Conversations",saved:"Saved Information",set:"Settings",hey:"Hello!",ph:"Ask anything about your health…"},
-
-
-
-hi:{home:"होम",chat:"एआई स्वास्थ्य सहायक",sym:"लक्षण जांचें",hosp:"नज़दीकी अस्पताल",sch:"सरकारी योजनाएं",fin:"आर्थिक सहायता",guide:"व्यक्तिगत मार्गदर्शन",rec:"हाल की बातचीत",saved:"सहेजी जानकारी",set:"सेटिंग्स",hey:"नमस्ते!",ph:"अपनी सेहत के बारे में कुछ भी पूछें…"}};
-
-
-
-const t=k=>(L[st.lang]||L.en)[k]||L.en[k];
-
-
-
-
-
-
+const L={en:{home:"Home",chat:"AI Health Assistant",sym:"Check Symptoms",hosp:"Nearby Hospitals",sch:"Government Schemes",fin:"Financial Assistance",guide:"Personalized Guidance",rec:"Recent Conversations",saved:"Saved Information",set:"Settings",tools:"Health Tools",emg:"Emergency",
+hey:"Hello!",ph:"Ask anything about your health…",tag:"PATIENT SUPPORT, ALL IN ONE PLACE",h2:"Your health matters to us.",sub:"Understand your health, find care nearby, and explore support you may qualify for — all in one simple place.",
+help:"How can we help today?",helpSub:"Choose a service to get started.",space:"Your health space",spaceSub:"Pick up where you left off or read a small wellness reminder.",recent:"Recent conversations",all:"View all",tipH:"Daily health reminder",tipS:"Small, consistent habits can support your wellbeing.",
+safeB:"Here to support, not replace a doctor.",safeT:"Our AI shares general health information. For an emergency in India, call 112 or seek urgent medical care.",none:"No conversations yet. Ask your first question.",wait:"Please wait for the answer to finish.",
+sos:"Emergency? Call",foot:"SwasthyaSaathi shares general health information, not a diagnosis or treatment. In an emergency call 112.",
+st1:"Private: chats stay on your device",st2:"24×7 emergency guidance",st3:"Free schemes, explained simply",welcome:"Hello! Tell me what you feel, or ask about a disease, scheme or hospital. I will answer in simple words.",
+a_chat:"Ask in simple words",a_sym:"Possible causes and next steps",a_hosp:"Government and listed hospitals",a_sch:"See what you may get",a_fin:"Grants and loans, kept apart",a_guide:"A few simple questions",a_tools:"BMI and blood pressure check",a_emg:"Helpline numbers and warning signs",
+s_home:"Home",s_chat:"Assistant",s_sym:"Symptoms",s_hosp:"Hospitals",s_emg:"Emergency",loc:"Set your location"},
+hi:{home:"होम",chat:"एआई स्वास्थ्य सहायक",sym:"लक्षण जांचें",hosp:"नज़दीकी अस्पताल",sch:"सरकारी योजनाएं",fin:"आर्थिक सहायता",guide:"व्यक्तिगत मार्गदर्शन",rec:"हाल की बातचीत",saved:"सहेजी जानकारी",set:"सेटिंग्स",tools:"स्वास्थ्य उपकरण",emg:"आपातकाल",
+hey:"नमस्ते!",ph:"अपनी सेहत के बारे में कुछ भी पूछें…",tag:"मरीज़ सहायता, एक ही जगह",h2:"आपकी सेहत हमारे लिए ज़रूरी है।",sub:"अपनी सेहत समझें, पास में इलाज खोजें और मिलने वाली सहायता जानें — सब एक सरल जगह।",
+help:"आज हम कैसे मदद करें?",helpSub:"शुरू करने के लिए कोई सेवा चुनें।",space:"आपकी स्वास्थ्य जगह",spaceSub:"जहाँ छोड़ा था वहीं से शुरू करें या एक छोटा सुझाव पढ़ें।",recent:"हाल की बातचीत",all:"सभी देखें",tipH:"रोज़ का स्वास्थ्य सुझाव",tipS:"छोटी-छोटी नियमित आदतें आपकी सेहत में मदद करती हैं।",
+safeB:"डॉक्टर की जगह नहीं, सिर्फ़ सहयोग।",safeT:"हमारा एआई सामान्य स्वास्थ्य जानकारी देता है। आपात स्थिति में भारत में 112 पर कॉल करें या तुरंत चिकित्सा सहायता लें।",none:"अभी कोई बातचीत नहीं। अपना पहला सवाल पूछें।",wait:"कृपया जवाब पूरा होने तक रुकें।",
+sos:"आपातकाल? कॉल करें",foot:"स्वास्थ्यसाथी सामान्य स्वास्थ्य जानकारी देता है, निदान या इलाज नहीं। आपात स्थिति में 112 पर कॉल करें।",
+st1:"निजी: बातचीत आपके डिवाइस पर रहती है",st2:"24×7 आपातकालीन मार्गदर्शन",st3:"मुफ़्त योजनाओं की सरल जानकारी",welcome:"नमस्ते! बताइए आपको क्या महसूस हो रहा है, या किसी बीमारी, योजना या अस्पताल के बारे में पूछिए। मैं सरल शब्दों में जवाब दूँगा।",
+a_chat:"सरल शब्दों में पूछें",a_sym:"संभावित कारण और अगले कदम",a_hosp:"सरकारी और सूचीबद्ध अस्पताल",a_sch:"जानें आपको क्या मिल सकता है",a_fin:"अनुदान और लोन, अलग-अलग",a_guide:"कुछ आसान सवाल",a_tools:"BMI और ब्लड प्रेशर जांच",a_emg:"हेल्पलाइन नंबर और चेतावनी संकेत",
+s_home:"होम",s_chat:"सहायक",s_sym:"लक्षण",s_hosp:"अस्पताल",s_emg:"आपातकाल",loc:"अपना स्थान चुनें"}};
+const t=k=>(L[st.lang]||L.en)[k]||L.en[k]||k;
 
 // ===== Health knowledge base: name, keywords, signs, warning signs, doctor, tip, group =====
-
-
-
 const KB=[
-
-
-
 ["Dengue","dengue,fever,headache,rash,body ache,joint pain,eye pain,mosquito","high fever, severe headache, pain behind the eyes, joint and muscle pain, rash","bleeding gums or nose, black stools, repeated vomiting, severe belly pain, extreme weakness","a general physician","Rest and drink plenty of fluids. Do not take aspirin or ibuprofen unless a doctor says so.","gen"],
-
-
-
 ["Malaria","malaria,fever,chills,shivering,sweating,headache,vomiting","fever with chills and shivering, sweating, headache, vomiting","confusion, fits, yellow eyes, very little urine, trouble breathing","a general physician","A blood test confirms it. Government health centres often test and treat malaria at low or no cost.","gen"],
-
-
-
 ["Typhoid","typhoid,fever,stomach pain,weakness,constipation,diarrhoea,headache","fever that rises day by day, weakness, stomach pain, loss of appetite","fever beyond 5 days, severe belly pain, black stools, confusion","a general physician","Drink boiled or safe water. A blood test helps confirm it.","gen"],
-
-
-
+["Chikungunya","chikungunya,fever,joint pain,joint,rash,swollen joints,mosquito,body ache","sudden fever, strong joint pain and swelling, rash, headache, tiredness","very high fever, confusion, bleeding, a baby or older adult who is very weak","a general physician","Rest and drink fluids. Avoid painkillers like aspirin or ibuprofen until a doctor rules out dengue.","gen"],
 ["Flu or common cold","flu,cold,cough,sore throat,runny nose,fever,sneezing,body ache","cough, sore throat, runny nose, mild fever, tiredness","trouble breathing, fever lasting over 3 days, chest pain, a child who will not drink","a general physician or paediatrician","Rest, warm fluids and hand washing help.","gen"],
-
-
-
+["Pneumonia","pneumonia,cough,fever,phlegm,fast breathing,chest pain,breathless,breathlessness","cough with phlegm, fever, fast or hard breathing, chest pain when breathing","blue lips, very fast breathing, confusion, a child who cannot feed","a general physician, chest physician or paediatrician","Do not delay. Pneumonia needs a doctor's check and often medicines.","gen"],
 ["Diabetes","diabetes,sugar,thirst,frequent urination,weight loss,tired,blurred vision,wound","extra thirst, frequent urination, tiredness, weight loss, wounds that heal slowly","fruity breath, vomiting, confusion, very high or very low sugar","a physician or diabetologist","Regular sugar checks, balanced meals, daily walking and taking medicines on time are common precautions.","ncd"],
-
-
-
 ["Hypertension (high BP)","hypertension,blood pressure,bp,headache,dizzy,dizziness,blurred vision","often no signs; sometimes headache, dizziness, blurred vision","chest pain, very bad headache, weakness on one side, trouble speaking","a physician or cardiologist","Less salt, regular exercise and regular BP checks help.","ncd"],
-
-
-
 ["Tuberculosis (TB)","tb,tuberculosis,cough,night sweats,weight loss,blood in cough,fever","cough for over 2 weeks, evening fever, night sweats, weight loss","coughing blood, breathlessness, chest pain","a chest physician","TB tests and treatment are offered free in government facilities.","tb"],
-
-
-
 ["Asthma","asthma,wheezing,cough,breathless,breathlessness,chest tight","wheezing, night cough, chest tightness, breathlessness","struggling to speak, blue lips, inhaler not helping","a chest physician or pulmonologist","Avoid smoke and dust. Keep prescribed inhalers handy.","ncd"],
-
-
-
 ["Stomach infection (gastro)","stomach pain,diarrhoea,diarrhea,vomiting,loose motion,gastro,food poisoning,stomach","loose motions, vomiting, stomach cramps, mild fever","blood in stool, no urine for 8 hours, sunken eyes, a very sleepy child","a general physician or paediatrician","Sip ORS and safe water often.","gen"],
-
-
-
+["Jaundice","jaundice,yellow eyes,yellow skin,dark urine,hepatitis,liver,nausea,tired","yellow eyes or skin, dark urine, tiredness, nausea, loss of appetite","confusion or extreme sleepiness, vomiting blood, severe belly pain","a general physician or gastroenterologist","Drink safe water, avoid alcohol and do not self-medicate. A blood test finds the cause.","gen"],
+["Urinary tract infection","urine,urinary,burning urination,burning,frequent urination,lower abdomen,uti","burning while passing urine, passing urine often, lower belly pain, cloudy urine","fever with back pain, blood in urine, vomiting, pregnancy","a general physician","Drink enough water. Please do not start antibiotics without a doctor.","gen"],
 ["Anaemia","anaemia,anemia,tired,fatigue,weakness,pale,dizzy,breathless","tiredness, pale skin, dizziness, fast heartbeat","fainting, chest pain, severe breathlessness","a general physician","Iron-rich food helps. Get a blood test before taking iron tablets.","gen"],
-
-
-
 ["Cancer (general)","cancer,lump,weight loss,bleeding,ulcer,tumour,tumor","a lump that keeps growing, a sore that does not heal, unexplained weight loss or bleeding","sudden heavy bleeding, severe pain, trouble breathing","an oncologist, after a doctor’s referral","Early checks improve outcomes. Several schemes help with treatment costs.","cancer"],
-
-
-
 ["Kidney disease","kidney,swelling,urine,foamy urine,dialysis,tired","swollen feet or face, foamy urine, tiredness, passing less urine","very little urine, breathlessness, confusion","a nephrologist","Control sugar and BP. Avoid painkillers unless a doctor advises.","dialysis"],
-
-
-
-["Heart disease","heart,chest pain,palpitations,breathless,sweating,jaw pain","chest pressure, breathlessness on effort, a racing heartbeat","chest pain with sweating or pain in the arm or jaw (call 112 now)","a cardiologist","Quit tobacco, walk daily, and check BP and sugar.","ncd"]];
-
-
-
-
-
-
+["Heart disease","heart,chest pain,palpitations,breathless,sweating,jaw pain","chest pressure, breathlessness on effort, a racing heartbeat","chest pain with sweating or pain in the arm or jaw (call 112 now)","a cardiologist","Quit tobacco, walk daily, and check BP and sugar.","ncd"],
+["Stroke","stroke,face drooping,slurred speech,weakness on one side,sudden confusion,paralysis","face drooping, weakness in one arm or leg, slurred speech, sudden confusion or vision loss","ANY of these signs: call 112 immediately. Every minute counts","an emergency hospital, then a neurologist","Note the time signs began. Do not give food, water or medicines by mouth.","ncd"],
+["Anxiety or stress","anxiety,stress,panic,worry,sad,depressed,depression,sleep,low mood,mental","constant worry, restlessness, poor sleep, fast heartbeat, feeling low","thoughts of harming yourself, not able to eat or sleep for days","a general physician, counsellor or psychiatrist","Talking helps. Tele-MANAS (14416) offers free, private support 24×7.","mh"]];
+// Keywords match at the start of a word ("tired" finds "tiredness"). Very short ones (flu, tb, bp, sad) must be whole words.
+const rx=w=>{w=w.trim();return new RegExp("(^|[^a-z0-9])"+w.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+(w.length<=3?"([^a-z0-9]|$)":""),"i")};
+KB.forEach(c=>{c.k=c[1].split(",").map(rx);c.nm=new RegExp("(^|[^a-z0-9])"+c[0].split(/[ (]/)[0].toLowerCase()+"([^a-z0-9]|$)","i")});
 
 // ===== Schemes. "all" means it applies to every condition =====
-
-
-
-const VER="Last verified: not yet. Please confirm on the official site.";
-
-
-
+const VER="Details can change. Please confirm on the official website.";
 const SCH=[
-
-
-
 {id:"pmjay",n:"Ayushman Bharat PM-JAY",lv:"Central",cat:"Insurance",w:"Free hospital cover for serious illness at listed hospitals.",q:"Families listed in government data, and many senior citizens aged 70+. Check; do not assume.",cv:"Hospital stays, surgery, many cancer and heart treatments. Up to ₹5 lakh per family per year.",lm:"Only at listed hospitals. Most OPD visits are not covered.",dc:"Aadhaar and a ration card or other ID.",ck:"Call 14555 or use the eligibility tool on the website.",u:"https://pmjay.gov.in",t:"all"},
-
-
-
 {id:"ran",n:"Rashtriya Arogya Nidhi and Cancer Patient Fund",lv:"Central",cat:"Grant",w:"One-time money help for serious illness treated in government hospitals.",q:"Patients below the poverty line.",cv:"Treatment costs at government hospitals. The amount varies.",lm:"A grant, not a loan. Not guaranteed; depends on rules and funds.",dc:"Income or BPL proof, doctor’s estimate, ID.",ck:"Ask the hospital social worker or medical superintendent.",u:"https://mohfw.gov.in",t:"cancer,dialysis"},
-
-
-
 {id:"dial",n:"PM National Dialysis Programme",lv:"Central",cat:"Kidney",w:"Free or low-cost dialysis at district hospitals.",q:"Often for patients below the poverty line. Rules differ by state.",cv:"Dialysis sessions.",lm:"Centres and seats vary by district.",dc:"ID, BPL proof, doctor’s advice.",ck:"Ask your district hospital.",u:"https://nhm.gov.in",t:"dialysis"},
-
-
-
+{id:"nik",n:"Ni-kshay Poshan Yojana (TB nutrition support)",lv:"Central",cat:"Support",w:"Monthly nutrition support money for people on TB treatment.",q:"People with TB who are registered and on treatment under the national TB programme.",cv:"A monthly payment into the patient’s bank account during treatment.",lm:"Amount and rules can change. A bank account is needed.",dc:"TB registration details, Aadhaar, bank account.",ck:"Ask the TB health worker or nearest government health centre.",u:"https://tbcindia.gov.in",t:"tb"},
+{id:"tm",n:"Tele-MANAS (mental health helpline)",lv:"Central",cat:"Consultation",w:"Free tele-counselling and mental health support, 24×7. Call 14416.",q:"Open to everyone.",cv:"Counselling and referral to nearby services, in many Indian languages.",lm:"Counselling support. For immediate danger call 112.",dc:"Only a phone.",ck:"Call 14416 (toll-free).",u:"https://telemanas.mohfw.gov.in",t:"mh"},
 {id:"jan",n:"Jan Aushadhi (low-cost medicines)",lv:"Central",cat:"Medicines",w:"Quality generic medicines at lower prices.",q:"Anyone can buy.",cv:"Generic medicines.",lm:"Not every medicine is in stock.",dc:"Doctor’s prescription.",ck:"Find a nearby shop on the website.",u:"https://janaushadhi.gov.in",t:"all"},
-
-
-
 {id:"esan",n:"eSanjeevani (free online doctor)",lv:"Central",cat:"Consultation",w:"Free video consultation with government doctors.",q:"Open to all patients in India.",cv:"Doctor advice and e-prescription.",lm:"Not for emergencies. No physical exam.",dc:"Mobile number.",ck:"Register on the website or app.",u:"https://esanjeevani.mohfw.gov.in",t:"all"},
-
-
-
 {id:"state",n:"Your state health scheme",lv:"State",cat:"Insurance",w:"Many states run their own health cover, sometimes on top of PM-JAY.",q:"Different in every state.",cv:"Varies by state.",lm:"Not every state has one.",dc:"Aadhaar, ration card, address proof.",ck:"Ask your state health department or district hospital.",u:"https://www.india.gov.in",t:"all"}];
-
-
-
 const FIN={g:[
-
-
-
 {n:"Rashtriya Arogya Nidhi and Cancer Patient Fund",w:"One-time grants for serious illness treated in government hospitals.",q:"Patients below the poverty line.",lm:"Not guaranteed. Amount varies.",u:"https://mohfw.gov.in"},
-
-
-
 {n:"PM National Relief Fund",w:"Help with the cost of major treatments such as cancer, kidney or heart surgery.",q:"Families who cannot afford treatment. Hospital papers are needed.",lm:"Decided case by case. Funds are limited.",u:"https://pmnrf.gov.in"},
-
-
-
 {n:"Chief Minister’s relief fund",w:"Many states give medical help from a relief fund.",q:"Low-income residents of that state.",lm:"Rules and amounts differ by state.",u:"https://www.india.gov.in"}],
-
-
-
 l:[
-
-
-
 {n:"Bank medical or personal loan",w:"A bank lends money now. You repay monthly with interest.",q:"Depends on the bank: income, credit history, papers.",lm:"Approval is never guaranteed. Interest and fees apply."},
-
-
-
 {n:"Hospital payment plan (EMI)",w:"Some hospitals let you pay the bill in parts, sometimes through a partner lender.",q:"Ask the hospital billing desk.",lm:"Check interest, fees and the total you will pay."}]};
-
-
-
 const STATES="Andhra Pradesh,Arunachal Pradesh,Assam,Bihar,Chhattisgarh,Goa,Gujarat,Haryana,Himachal Pradesh,Jharkhand,Karnataka,Kerala,Madhya Pradesh,Maharashtra,Manipur,Meghalaya,Mizoram,Nagaland,Odisha,Punjab,Rajasthan,Sikkim,Tamil Nadu,Telangana,Tripura,Uttar Pradesh,Uttarakhand,West Bengal,Delhi,Jammu and Kashmir,Ladakh,Chandigarh,Puducherry,Andaman and Nicobar Islands,Dadra and Nagar Haveli and Daman and Diu,Lakshadweep".split(",");
-
-
-
 const AGES=["Child (0–12)","Teen (13–17)","Adult (18–59)","Senior (60+)"];
-
-
-
 const DUR=["Less than 1 day","1–3 days","More than 3 days","More than 2 weeks"];
-
-
-
 const SYM=["Fever","Headache","Cough","Body ache","Vomiting","Stomach pain","Rash","Tiredness","Breathlessness","Frequent urination","Weight loss","Joint pain"];
-
-
-
 const FLAGS=["Chest pain","Trouble breathing","Fainting or confusion","Bleeding that will not stop","Cannot keep fluids down"];
-
-
-
-const NAV=[["home","home"],["chat","chat"],["sym","pulse"],["hosp","pin"],["sch","bank"],["fin","rupee"],["guide","user"],["rec","clock"],["saved","mark"],["set","gear"]];
-
-
-
-const ACT=[["chat","chat","AI Health Assistant","Ask in simple words"],["sym","pulse","Check My Symptoms","Possible causes and next steps"],["hosp","pin","Find Nearby Hospitals","Government and listed hospitals"],["aff","rupee","Free or Affordable Treatment","Low-cost care and medicines"],["sch","bank","Government Health Schemes","See what you may get"],["fin","rupee","Medical Financial Help","Grants and loans, kept apart"],["guide","user","Personalized Guidance","A few simple questions"],["rec","clock","My Recent Conversations","Continue where you stopped"],["set","gear","My Preferences","Language, text size, location"]];
-
-
-
-const TIP="Drink safe water, eat fresh food, wash your hands often and get enough sleep.";
-
-
-
+const HELP=[["112","National emergency number","Police, fire and ambulance"],["108","Ambulance","Free emergency ambulance in most states"],["102","Ambulance for mothers and babies","Available in many states"],["104","Health advice line","Available in many states. Ask your state."],["14416","Tele-MANAS","Free 24×7 mental health support"],["14555","Ayushman Bharat helpline","PM-JAY eligibility and hospital questions"],["1098","CHILDLINE","Help for children in distress"],["181","Women helpline","Support for women in distress"]];
+const NAV=[["home","home"],["chat","chat"],["sym","pulse"],["hosp","pin"],["emg","phone"],["sch","bank"],["fin","rupee"],["guide","user"],["tools","calc"],["rec","clock"],["saved","mark"],["set","gear"]];
+const ACT=[["chat","chat","c1"],["sym","pulse","c2"],["hosp","pin","c3"],["sch","bank","c4"],["fin","rupee","c5"],["guide","user","c6"],["tools","calc","c7"],["emg","phone","c8"]];
+const TIPS=["Drink safe water, eat fresh food, wash your hands often and get enough sleep.","Walk for 30 minutes most days. Even short walks add up.","Use less salt and sugar. Add one more fruit or vegetable to your day.","Wash your hands with soap before eating and after using the toilet.","Sleep 7 to 8 hours. A fixed bedtime helps.","Sleep under a net and do not let water stand around the house. This keeps mosquitoes away.","Do not take antibiotics unless a doctor prescribes them.","Talk to someone you trust when you feel low. Free help is available on 14416."];
 const SUG=["What are the symptoms of dengue?","My child has a cough. What should I do?","Which doctor should I see for stomach pain?"];
-
-
-
-const RED=/chest pain|(trouble|difficulty|problem) breathing|can.?t breathe|shortness of breath|unconscious|faint|seizure|stroke|vomit(ing)? blood|blood in (vomit|stool)|heavy bleeding|suicid|self.?harm|poison|snake ?bite/i;
-
-
-
-const URGENT="\\*\\*This may be an emergency.\\*\\* Call \\*\\*112\\*\\* (ambulance \\*\\*108\\*\\*) or go to the nearest hospital now. Do not wait, and do not travel alone.\n\nIf you are thinking of harming yourself, call Tele-MANAS on \\*\\*14416\\*\\*.";
-
-
-
-
-
-
+// Emergency words, English and Hindi
+const RED=/chest (pain|pressure|tightness)|(trouble|difficulty|problem|hard to) breath|can.?t breathe|cannot breathe|shortness of breath|unconscious|unresponsive|faint(ed|ing)?\b|seizure|convulsion|stroke|vomit(ing)? blood|blood in (my )?(vomit|stool)|coughing (up )?blood|heavy bleeding|bleeding (that )?(won.?t|will not) stop|suicid|self.?harm|kill myself|poison|overdose|snake ?bite|heart attack|सीने में दर्द|सांस (नहीं|लेने में)|बेहोश|दौरा|खून की उल्टी|ज़हर|जहर|सांप|आत्महत्या/i;
+// A general "what is X?" question is education, not an emergency. A personal sentence is.
+const isEmerg=q=>RED.test(q)&&!(/^\s*(what|how|why|tell me about|explain|define)\b/i.test(q)&&!/\b(i|i'm|im|my|me|he|she|his|her|we|our|baby|child|mother|father)\b/i.test(q));
+const URGENT="**This may be an emergency.** Call **112** (ambulance **108**) or go to the nearest hospital now. Do not wait, and do not travel alone.\n\nIf you are thinking of harming yourself, call Tele-MANAS on **14416**.\n\n**यह आपात स्थिति हो सकती है।** तुरंत **112** (एम्बुलेंस **108**) पर कॉल करें या नज़दीकी अस्पताल जाएं।";
 
 // ===== Finding matching conditions =====
-
-
-
-function match(txt){const l=txt.toLowerCase();return KB.map(c=>({c,s:c[1].split(",").filter(w=>l.includes(w)).length+(l.includes(c[0].toLowerCase().split(" ")[0])?3:0)})).filter(x=>x.s).sort((a,b)=>b.s-a.s).map(x=>x.c)}
-
-
-
+function match(txt){const l=String(txt).toLowerCase();return KB.map(c=>({c,s:c.k.filter(r=>r.test(l)).length+(c.nm.test(l)?3:0)})).filter(x=>x.s).sort((a,b)=>b.s-a.s).map(x=>x.c)}
+// Pull age and days out of free text ("my son is 5 years old, fever for 3 days")
+function facts(s){const l=String(s).toLowerCase(),o={};let m=l.match(/(\d{1,3})\s*[- ]?\s*(?:years?|yrs?|yr|y\/o|साल|वर्ष)/);if(m)o.age=+m[1];
+if(o.age==null&&(/\b(child|baby|infant|toddler|kid|son|daughter)\b/.test(l)||/बच्च/.test(l)))o.age=5;
+m=l.match(/(\d{1,2})\s*(?:days?|din|दिन)/);if(m)o.days=+m[1];m=l.match(/(\d{1,2})\s*(?:weeks?|hafte|हफ्ते|सप्ताह)/);if(m)o.days=+m[1]*7;
+if(o.days==null&&/since yesterday|कल से/.test(l))o.days=1;return o}
+const advice=f=>{const a=[];if(f.age!=null&&f.age<=12)a.push("Children can get worse quickly, so please show a doctor early.");if(f.age>=60)a.push("Older adults should see a doctor early, even for mild symptoms.");if(f.days>=3)a.push("Symptoms lasting 3 days or more need a doctor visit.");return a};
+// Urgency level 1 (low), 2 (see a doctor soon), 3 (emergency)
+function triage(o){if((o.rf&&o.rf.length)||isEmerg(o.txt||""))return 3;let lv=1;const sy=o.sy||[];
+if(o.du===DUR[2]||o.du===DUR[3])lv=2;if(sy.includes("Breathlessness")||sy.includes("Weight loss"))lv=Math.max(lv,2);
+if(o.age&&(o.age.startsWith("Child")||o.age.startsWith("Senior"))&&(sy.includes("Fever")||sy.includes("Vomiting")||sy.includes("Breathlessness")))lv=Math.max(lv,2);return lv}
+const TRI=[0,{c:"ok",h:"Low urgency",p:"Rest, drink safe fluids and watch your symptoms. See a doctor if they get worse or last more than 3 days."},{c:"warn",h:"See a doctor soon",p:"Please visit a doctor or health centre within 24 hours, or use free eSanjeevani online."},{c:"bad",h:"Emergency",p:"Call 112 or 108, or go to the nearest hospital now."}];
+const triHTML=l=>`<div class="tri ${TRI[l].c}"${l===3?' role="alert"':""}><span class="dot"></span><div><b>${TRI[l].h}</b><br>${TRI[l].p}</div></div>`;
 // One condition as a readable card
-
-
-
 function rep(c){const [n,,s,w,d,a,g]=c;const rel=SCH.filter(x=>x.t==="all"||x.t.split(",").includes(g));
-
-
-
 return `<article class="card"><h2>${n} <span class="tag">Possible match, not a diagnosis</span></h2><dl><dt>Common signs</dt><dd>${s}</dd><dt>Get care quickly if</dt><dd class="bad">${w}</dd><dt>Who to see</dt><dd>${d}</dd><dt>General advice</dt><dd>${a}</dd></dl><p><b>Programs that may help:</b> ${rel.map(x=>esc(x.n)).join(", ")}. <button class="lnk" data-a="go" data-v="sch">See details</button></p></article>`}
 
-
-
-
-
-
-
 // ===== Chat =====
-
-
-
 let cv={id:0,m:[]},busy=0,AI;
-
-
-
-const SYS="You are SwasthyaSaathi, a careful health-information guide for patients and families in India. Use short, simple sentences and explain medical words. Never confirm a diagnosis or give drug doses. Give possible causes cautiously, name warning signs, say which type of doctor to see, and ask one or two follow-up questions. If signs may be serious, tell them to call 112 or 108 now. For money or hospital questions, point to official sources like pmjay.gov.in and mohfw.gov.in. Never invent prices, hospitals, scheme amounts or approval promises. Reply in the language the patient used. If the website language is Hindi, answer in clear, natural Hindi unless the patient explicitly asks for English. Keep it under 150 words. Use '- ' bullets and blank lines between paragraphs.";
-
-
-
-// Safe AI: the page never holds a key. Claude is reached through the platform.
-
-
-
-async function ai(hist,on){
-  if(!window.claude || typeof window.claude.use!=="function") throw new Error("AI service is not configured");
-  AI=AI||await window.claude.use("sample");
-  if(!AI) throw new Error("AI service did not initialize");
-  const p=SYS+"\nPatient state: "+(st.state||"unknown")+"\n\n"+
-    hist.slice(-8).map(m=>(m.r==="u"?"Patient: ":"Assistant: ")+m.t).join("\n")+"\nAssistant:";
-  const result=await AI(p,{cache:false,modelTier:"quick",onText:({text})=>{if(typeof text==="string")on(text)}});
-  const answer=typeof result==="string"?result:result&&typeof result.text==="string"?result.text:"";
-  if(!answer.trim()) throw new Error("AI service returned an empty response");
-  return answer.trim();
-}
-
-
-
-// Offline answer from the knowledge base
-
-
-
-function local(q){
-  const hi=st.lang==="hi" || /[\u0900-\u097F]/.test(q);
-  if(/hospital|clinic|अस्पताल|क्लिनिक/i.test(q)) return hi
-    ? "अस्पताल खोजने के लिए मेन्यू में “Nearby Hospitals” खोलें और अपना राज्य व ज़िला चुनें। किसी आपात स्थिति में 112 या एम्बुलेंस 108 पर कॉल करें।"
-    : "Open “Nearby Hospitals” in the menu and enter your state and district. In an emergency, call 112 or ambulance 108.";
-  if(/scheme|afford|cost|pay|loan|money|insurance|योजना|खर्च|पैसे|बीमा/i.test(q)) return hi
-    ? "मेन्यू में “Government Schemes” और “Financial Assistance” देखें। पात्रता और नियमों की पुष्टि आधिकारिक स्रोत से करें।"
-    : "Open “Government Schemes” and “Financial Assistance” in the menu. Confirm eligibility and current rules through official sources.";
-  const m=match(q).slice(0,3);
-  if(!m.length) return hi
-    ? "मैं इस सवाल का भरोसेमंद विशिष्ट उत्तर अभी नहीं दे पा रहा हूँ। कृपया लक्षण, उनकी अवधि और व्यक्ति की उम्र बताएं। मैं सामान्य जानकारी दे सकता हूँ, लेकिन डॉक्टर जाँच और निदान के लिए ज़रूरी हैं।"
-    : "I can’t provide a reliable, specific answer to that question right now. Please share the symptoms, how long they have lasted, and the person’s age. I can offer general information, but a clinician is needed for assessment and diagnosis.";
-  const c=m[0];
-  return (hi
-    ? "संभावित कारण (यह निदान नहीं है):\n\n"+m.map(x=>"- "+x[0]+": "+x[2]).join("\n")+"\n\nतुरंत चिकित्सा सहायता लें यदि: "+c[3]+".\n\nकिस डॉक्टर से मिलें: "+c[4]+".\n\n"+c[5]+"\n\nबेहतर मार्गदर्शन के लिए बताएं: यह कब से है और व्यक्ति की उम्र क्या है।"
-    : "Possible causes (not a diagnosis):\n\n"+m.map(x=>"- "+x[0]+": "+x[2]).join("\n")+"\n\nGet care quickly if: "+c[3]+".\n\nWho to see: "+c[4]+".\n\n"+c[5]+"\n\nTo guide you better, how long has this lasted and how old is the person?");
-}
-
-function quickAnswer(q){
- const x=q.toLowerCase().trim().replace(/[?!.,]+$/,"").replace(/\s+/g," ");
- const hi=st.lang==="hi" || /[\u0900-\u097F]/.test(q);
- const greetings=/^(hi|hello|hey|hii+|namaste|नमस्ते|नमस्कार|प्रणाम|good morning|good afternoon|good evening|सुप्रभात|शुभ संध्या)$/i;
- if(greetings.test(x)){
-  if(/how are you|कैसे हो|कैसी हो|कैसे हैं/.test(x)) return hi?"मैं ठीक हूँ, धन्यवाद! मैं आपकी स्वास्थ्य संबंधी सामान्य जानकारी में मदद के लिए यहाँ हूँ। आप कैसे हैं?":"I’m doing well, thank you! I’m here to help with general health information. How are you?";
-  return hi?"नमस्ते! मैं स्वास्थ्य संबंधी जानकारी, लक्षणों, सरकारी योजनाओं और अस्पताल खोजने में आपकी मदद कर सकता हूँ। आप क्या जानना चाहेंगे?":"Hello! I can help with general health information, symptoms, government schemes, and finding care. What would you like to know?";
- }
- if(/^(how are you|how r u|कैसे हो|कैसी हो|कैसे हैं)$/.test(x)) return hi?"मैं ठीक हूँ, धन्यवाद! बताइए, मैं आपकी किस तरह मदद कर सकता हूँ?":"I’m doing well, thanks for asking! How can I help you today?";
- const entries=[
-  [/^(what is|explain|tell me about )?diabetes|मधुमेह|डायबिटीज/,"Diabetes is a condition in which blood glucose (sugar) stays too high. A blood test is needed to check it. A clinician can advise on food, activity, monitoring and treatment.","मधुमेह में खून में शुगर का स्तर अधिक रहता है। इसकी जाँच के लिए रक्त परीक्षण ज़रूरी है। डॉक्टर भोजन, गतिविधि, शुगर की जाँच और इलाज के बारे में सलाह दे सकते हैं।"],
-  [/blood pressure|high bp|hypertension|उच्च रक्तचाप|बीपी/,"High blood pressure often has no obvious symptoms. Check it with a reliable monitor and discuss repeated high readings with a clinician. Chest pain, severe headache, weakness on one side or trouble speaking needs urgent care.","उच्च रक्तचाप में अक्सर कोई स्पष्ट लक्षण नहीं होते। सही मशीन से बीपी जाँचें और बार-बार अधिक आने पर डॉक्टर से बात करें। सीने में दर्द, बहुत तेज सिरदर्द, शरीर के एक तरफ कमजोरी या बोलने में परेशानी हो तो तुरंत चिकित्सा सहायता लें।"],
-  [/dengue|डेंगू/,"Dengue may cause high fever, headache, pain behind the eyes, body aches or rash. Seek urgent care for severe abdominal pain, repeated vomiting, bleeding or extreme weakness. A clinician should assess suspected dengue.","डेंगू में तेज बुखार, सिरदर्द, आँखों के पीछे दर्द, बदन दर्द या दाने हो सकते हैं। पेट में तेज दर्द, बार-बार उल्टी, खून आना या बहुत कमजोरी होने पर तुरंत चिकित्सा सहायता लें। डेंगू की आशंका हो तो डॉक्टर से जाँच कराएँ।"],
-  [/fever|बुखार/,"Rest, drink safe fluids and monitor your temperature. Seek medical advice if fever is persistent, worsening, or accompanied by a rash, severe pain or dehydration. Trouble breathing, confusion or fainting is an emergency.","आराम करें, सुरक्षित तरल पदार्थ पिएँ और तापमान पर नज़र रखें। बुखार लगातार रहे, बढ़े या दाने, तेज दर्द अथवा पानी की कमी के साथ हो तो डॉक्टर से सलाह लें। साँस लेने में परेशानी, भ्रम या बेहोशी आपात स्थिति है।"],
-  [/headache|सिरदर्द/,"Headaches can have many causes, including dehydration, stress or illness. Rest and drink water if you can. A sudden, extremely severe headache, confusion, weakness or vision/speech changes needs urgent medical care.","सिरदर्द के कई कारण हो सकते हैं, जैसे पानी की कमी, तनाव या बीमारी। संभव हो तो आराम करें और पानी पिएँ। अचानक बहुत तेज सिरदर्द, भ्रम, कमजोरी या देखने/बोलने में बदलाव हो तो तुरंत चिकित्सा सहायता लें।"],
-  [/cough|खांसी|खाँसी/,"A cough can come from a cold, allergy or other causes. Drink fluids and avoid smoke. Seek care for breathing difficulty, chest pain, blood in cough, or a cough lasting more than two weeks.","खाँसी सर्दी, एलर्जी या अन्य कारणों से हो सकती है। तरल पदार्थ पिएँ और धुएँ से बचें। साँस लेने में परेशानी, सीने में दर्द, खाँसी में खून या दो सप्ताह से अधिक खाँसी होने पर डॉक्टर को दिखाएँ।"],
-  [/ors|loose motion|diarrh(o|oe)a|दस्त|ओआरएस/,"ORS helps replace water and salts lost through diarrhoea. Mix a packet with exactly the amount of clean water written on its label. Seek care for blood in stool, very little urine, confusion or inability to keep fluids down.","दस्त में ORS शरीर में पानी और नमक की कमी पूरी करने में मदद करता है। पैकेट पर लिखी मात्रा के साफ पानी में ही घोलें। मल में खून, बहुत कम पेशाब, भ्रम या तरल पदार्थ न रुकने पर डॉक्टर से तुरंत संपर्क करें।"],
-  [/drink water|hydration|पानी कितना|पानी पीना/,"Drink water regularly and more when you are hot or active. Needs vary with age, weather and health conditions; people on fluid restrictions should follow their clinician’s advice.","नियमित रूप से पानी पिएँ और गर्मी या शारीरिक गतिविधि में ज़रूरत बढ़ सकती है। पानी की ज़रूरत उम्र, मौसम और स्वास्थ्य पर निर्भर करती है। यदि डॉक्टर ने तरल पदार्थ सीमित करने को कहा है, तो उनकी सलाह मानें।"],
-  [/asthma|दमा|अस्थमा/,"Asthma can cause wheezing, coughing, chest tightness and breathlessness. Follow your prescribed asthma plan and avoid known triggers. Severe breathing difficulty or blue lips is an emergency.","अस्थमा में घरघराहट, खाँसी, सीने में जकड़न और साँस फूलना हो सकता है। डॉक्टर की बताई योजना का पालन करें और जिन चीज़ों से परेशानी बढ़ती है उनसे बचें। साँस लेने में बहुत कठिनाई या होंठ नीले पड़ना आपात स्थिति है।"],
-  [/tuberculosis|\btb\b|टीबी|क्षय रोग/,"TB may cause a cough lasting over two weeks, fever, night sweats or weight loss. Please visit a health facility for testing; TB testing and treatment are available through India’s public health system.","टीबी में दो सप्ताह से अधिक खाँसी, बुखार, रात में पसीना या वज़न कम होना जैसे लक्षण हो सकते हैं। जाँच के लिए स्वास्थ्य केंद्र जाएँ। भारत की सरकारी स्वास्थ्य व्यवस्था में टीबी की जाँच और इलाज उपलब्ध हैं।"],
-  [/sleep|नींद/,"A regular sleep schedule, a calm bedtime routine and less screen use before bed may help. If sleep problems continue or affect daily life, talk with a healthcare professional.","नियमित समय पर सोना, सोने से पहले शांत दिनचर्या और स्क्रीन का कम उपयोग मदद कर सकता है। नींद की परेशानी बनी रहे या रोज़मर्रा के काम प्रभावित हों, तो स्वास्थ्य विशेषज्ञ से बात करें।"]
- ];
- for(const [re,en,hin] of entries) if(re.test(x)) return hi?hin:en;
- if(/thank you|thanks|धन्यवाद|शुक्रिया/.test(x)) return hi?"आपका स्वागत है! स्वास्थ्य से जुड़ा कोई और सवाल हो तो पूछिए।":"You’re welcome! Feel free to ask another health-related question.";
- if(/who are you|your name|तुम कौन|आप कौन|तुम्हारा नाम|आपका नाम/.test(x)) return hi?"मैं स्वास्थ्‍यसाथी हूँ—सामान्य स्वास्थ्य जानकारी और सही सहायता तक पहुँचने में मदद करने वाला डिजिटल सहायक। मैं डॉक्टर का विकल्प नहीं हूँ।":"I’m SwasthyaSaathi, a digital assistant for general health information and finding support. I’m not a replacement for a doctor.";
- if(/what can you do|help me|मदद कर सकते|क्या कर सकते/.test(x)) return hi?"मैं सामान्य लक्षणों की जानकारी, स्वास्थ्य स्थितियों की आसान व्याख्या, सरकारी स्वास्थ्य योजनाओं और अस्पताल खोजने में मदद कर सकता हूँ। आप अपना सवाल लिखें।":"I can explain common symptoms and health conditions, share general safety guidance, and help you explore government schemes or find care. Type your question to begin.";
- return null;
-}
-
-
-async function send(q){
-  q=String(q||"").trim();
-  if(!q || busy) return;
-  busy=1;
-  if(!cv.id) cv.id=Date.now();
-  cv.m.push({r:"u",t:q});
-  const a={r:"a",t:"",busy:1};
-  cv.m.push(a);
-
-  // Switch screens before requesting an answer, but never let a paint error block the reply.
-  try { if(cur!=="chat") go("chat"); else paint(); } catch(e) { console.error("Chat display error:",e); }
-
-  try {
-    let out="";
-    if(RED.test(q)) {
-      out=URGENT;
-    } else {
-      out=quickAnswer(q)||"";
-      if(!out) {
-        try {
-          const history=cv.m.filter(m=>!m.busy);
-          const timeout=new Promise((_,reject)=>setTimeout(()=>reject(new Error("AI response timed out")),15000));
-          out=await Promise.race([ai(history,x=>{a.t=String(x||"");try{paint()}catch(e){console.error(e)}}),timeout]);
-        } catch(err) {
-          console.warn("AI unavailable; using local answer:",err);
-          out=local(q);
-        }
-      }
-    }
-    if(typeof out!=="string" || !out.trim()) out=local(q);
-    a.t=out;
-  } catch(err) {
-    console.error("Chat response error:",err);
-    a.t=local(q)||"Sorry, I could not prepare a response. Please try asking in a different way.";
-  } finally {
-    delete a.busy;
-    busy=0;
-    try { keep(); } catch(e) { console.error("Could not save chat:",e); }
-    try { paint(); } catch(e) { console.error("Could not render answer:",e); }
-  }
-}
-
-
-
+const SYS="You are SwasthyaSaathi, a careful health-information guide for patients and families in India. Use short, simple sentences and explain medical words. Never confirm a diagnosis or give drug doses. Give possible causes cautiously, name warning signs, say which type of doctor to see, and ask one or two follow-up questions. If signs may be serious, tell them to call 112 or 108 now. For money or hospital questions, point to official sources like pmjay.gov.in and mohfw.gov.in. Never invent prices, hospitals, scheme amounts or approval promises. Reply in the language the patient used. Keep it under 150 words. Use '- ' bullets and blank lines between paragraphs.";
+// Safe AI: the page never holds a key. Claude is reached through the platform when it is available.
+async function ai(hist,on){if(!window.claude||!claude.use)throw 0;AI=AI||await claude.use("sample");if(!AI)throw 0;
+const p=SYS+"\nPatient state: "+(st.state||"unknown")+"\n\n"+hist.slice(-8).map(m=>(m.r==="u"?"Patient: ":"Assistant: ")+m.t).join("\n")+"\nAssistant:";
+return (await AI(p,{cache:false,modelTier:"quick",onText:({text})=>on(text)})).text}
+// Offline answer from the knowledge base. Reads recent messages so follow-ups like "3 days, he is 6" work.
+function local(q){const l=q.toLowerCase().trim();
+const ctx=cv.m.filter(m=>m.r==="u"&&!m.busy).slice(-3).map(m=>m.t).join(" . ");
+if(/^(hi+|hello|hey|namaste|good (morning|evening|afternoon))\b|^नमस्ते/.test(l))return "Hello! I am SwasthyaSaathi. Tell me your symptoms, who is affected (age) and for how long, and I will share general guidance.";
+if(/^(thanks|thank you|thx|dhanyavad)|^(धन्यवाद|शुक्रिया)/.test(l))return "You are welcome. Take care, and please see a doctor if things get worse.";
+if(/\b(helpline|emergency number|ambulance|108|112)\b|एम्बुलेंस|हेल्पलाइन/.test(l))return "**Emergency numbers:**\n\n- **112**: national emergency\n- **108**: ambulance\n- **14416**: Tele-MANAS (mental health)\n- **14555**: Ayushman Bharat helpline\n\nOpen **Emergency** in the menu for the full list.";
+if(/\b(hospital|clinic|doctor near)\b|अस्पताल/.test(l)&&!match(q).length)return "Open **Nearby Hospitals** in the menu. Enter your state and district to find government and listed hospitals through official sources.";
+if(/\b(scheme|ayushman|insurance|loan|afford|cost|pay|payment|money|free treatment)\b|योजना/.test(l)&&!match(q).length)return "Open **Government Schemes** to see what may cover your treatment, and **Financial Assistance** for grants and loans. Please confirm eligibility on the official site.";
+const m=(match(q).length?match(q):match(ctx)).slice(0,3);
+if(!m.length)return "I need a little more detail. What symptoms do you have, how long have they lasted, and how old is the person?";
+const c=m[0],f=facts(ctx+" . "+q),adv=advice(f),miss=[];if(f.age==null)miss.push("how old is the person");if(f.days==null)miss.push("how long has this lasted");
+return `**Possible causes** (not a diagnosis):\n\n${m.map(x=>"- **"+x[0]+"**: "+x[2]).join("\n")}\n\n**Get care quickly if:** ${c[3]}.\n\n**Who to see:** ${c[4]}.\n\n${c[5]}${adv.length?"\n\n"+adv.map(x=>"- "+x).join("\n"):""}\n\n${miss.length?"To guide you better: "+miss.join(", and ")+"? ":""}A doctor must confirm what is wrong.`}
+async function send(q){q=String(q||"").trim();if(!q)return;if(busy){toast(t("wait"));return}
+busy=1;if(!cv.id)cv.id=Date.now();cv.m.push({r:"u",t:q});const a={r:"a",t:"",busy:1};cv.m.push(a);cur!=="chat"?go("chat"):paint();
+try{let out="";
+if(isEmerg(q))out=URGENT;
+else{try{out=await Promise.race([ai(cv.m.filter(m=>!m.busy),x=>{a.t=x;paint()}),new Promise((_,j)=>setTimeout(j,30000))])}catch{out=""}}
+a.t=(typeof out==="string"&&out.trim())?out:local(q)}
+catch{a.t=local(q)||"Sorry, I could not prepare a response. Please try asking in a different way."}
+finally{delete a.busy;busy=0;keep();paint()}}
 // Save the chat on this device
-
-
-
 function keep(){if(!st.keep)return;const r={id:cv.id,ts:Date.now(),title:cv.m[0].t.slice(0,50),m:cv.m.map(({r,t})=>({r,t}))},i=st.chats.findIndex(c=>c.id===cv.id);i<0?st.chats.unshift(r):st.chats[i]=r;st.chats=st.chats.slice(0,20);save()}
-
-
-
-function paint(){const e=$("#msgs");if(!e)return;e.innerHTML=cv.m.length?cv.m.map(m=>`<div class="m ${m.r}">${m.busy&&!m.t?"Thinking…":md(m.t)}</div>`).join(""):`<div class="m a">Hello! Tell me what you feel, or ask about a disease, scheme or hospital. I will answer in simple words.</div>`;$("#v").scrollTop=1e9}
-
-
-
-
-
-
+function msgHTML(m,i){if(m.r==="u")return `<div class="mr u"><div class="m u">${esc(m.t).replace(/\n/g,"<br>")}</div></div>`;
+return `<div class="mr"><span class="av" aria-hidden="true">${ic("heart","sm")}</span><div class="m a">${m.busy&&!m.t?'<span class="dots" role="status" aria-label="Thinking"><i></i><i></i><i></i></span>':md(m.t)}${m.busy?"":`<div class="mact"><button data-a="copy" data-i="${i}">${ic("copy","sm")} Copy</button><button data-a="speak" data-i="${i}">${ic("speaker","sm")} Listen</button></div>`}</div></div>`}
+function paint(){const e=$("#msgs");if(!e)return;e.innerHTML=cv.m.length?cv.m.map(msgHTML).join(""):`<div class="mr"><span class="av" aria-hidden="true">${ic("heart","sm")}</span><div class="m a">${esc(t("welcome"))}</div></div>`;const v=$("#v");v.scrollTop=v.scrollHeight;const b=document.querySelector(".bar .go");if(b)b.disabled=!!busy}
 
 // ===== Page parts =====
-
-
-
 let cur="home";
-
-
-
 const hs={tab:"all",lat:0,lng:0},sf={q:"",c:""},sc={},gd={},O={sc,gd};let ft="g";
-
-
-
 const rstS=()=>Object.assign(sc,{step:1,sy:[],ot:"",du:DUR[1],age:"",rf:[]});
-
-
-
 const rstG=()=>Object.assign(gd,{step:1,age:"",st:"",cn:"",sy:""});rstS();rstG();
-
-
-
 const hd=(h,s)=>`<h1 tabindex="-1">${h}</h1><p class="sub">${s}</p>`;
-
-
-
 const steps=(n,l)=>`<div class="chips" style="gap:18px">${l.map((x,i)=>`<span class="st${n===i+1?" on":""}"><i>${i+1}</i>${x}</span>`).join("")}</div>`;
-
-
-
 const tgl=(k,l)=>`<label class="tg"><input type="checkbox" data-s="${k}"${st[k]?" checked":""}> ${l}</label>`;
-
-
-
 const askForm=()=>`<form class="ask" data-f="ask"><input id="q" autocomplete="off" placeholder="${esc(t("ph"))}" aria-label="Ask a health question">${st.voice?`<button type="button" class="ib" data-a="mic" aria-label="Speak your question">${ic("mic")}</button>`:""}<button class="go" aria-label="Send">${ic("send")}</button></form>`;
-
-
-
-const topbar=()=>`<div class="top"><button class="ib menu" data-a="menu" aria-label="Toggle navigation sidebar" aria-expanded="${!document.querySelector("#app")?.classList.contains("sidebar-closed")}">${ic("menu")}</button><button class="pill" data-a="go" data-v="set">${ic("pin")} ${esc([st.dist,st.state].filter(Boolean).join(", ")||"Set your location")}</button><button class="ib" data-a="theme" aria-label="Switch light or dark mode">${ic("moon")}</button></div>`;
-
-
-
-const recent=n=>st.chats.length?`<ul class="list">${st.chats.slice(0,n).map((c,i)=>`<li><button class="rb" data-a="open" data-i="${i}"><b>${esc(c.title)}</b><small>${ago(c.ts)}</small></button></li>`).join("")}</ul>`:`<p class="sub">No conversations yet. Ask your first question.</p>`;
-
-
-
-const sch=x=>`<article class="card"><div class="row"><h2>${x.n}</h2><span class="tag ${x.lv==="State"?"w":"g"}">${x.lv} government</span></div><p>${x.w}</p><details><summary>Who qualifies, documents and how to apply</summary><dl><dt>Who may qualify</dt><dd>${x.q}</dd><dt>What it may cover</dt><dd>${x.cv}</dd><dt>Limits</dt><dd>${x.lm}</dd><dt>Documents you may need</dt><dd>${x.dc}</dd><dt>How to check eligibility</dt><dd>${x.ck}</dd></dl></details><div class="row"><span><a class="btn o" href="${x.u}" target="\\_blank" rel="noopener noreferrer">Official website</a> <button class="chip" data-a="star" data-v="${x.id}" aria-pressed="${st.saved.includes(x.id)}">${ic("star","sm")} Save</button></span><small>${VER}</small></div></article>`;
-
-
-
-const fin=x=>`<article class="card"><h2>${x.n}</h2><p>${x.w}</p><dl><dt>Who may qualify</dt><dd>${x.q}</dd><dt>Limits</dt><dd>${x.lm}</dd></dl>${x.u?`<a class="btn o" href="${x.u}" target="\\_blank" rel="noopener noreferrer">Official website</a>`:"<small>Ask your bank or hospital directly.</small>"}</article>`;
-
-
-
-const mapUrl=q=>hs.lat?`https://www.google.com/maps/search/${encodeURIComponent(q)}/@${hs.lat},${hs.lng},13z`:`https://www.google.com/maps/search/${encodeURIComponent(q+" "+st.dist+" "+st.state)}`;
-
-
-
-const HR=[["Government hospitals","gov","Public hospitals often charge little or nothing for check-ups and some treatments. Call to confirm.","government hospital"],["Community and primary health centres","gov","First stop for fever, infections and check-ups. Usually low cost.","primary health centre"],["Ayushman Bharat listed hospitals","aff","Cashless treatment if you are eligible. Search the official list.","https://hospitals.pmjay.gov.in"],["Jan Aushadhi medicine shops","aff","Generic medicines at lower prices.","Jan Aushadhi Kendra"],["Free online doctor (eSanjeevani)","aff","Free government video consultation from home.","https://esanjeevani.mohfw.gov.in"]];
-
-
-
-
-
-
+const sbOpen=()=>matchMedia("(max-width: 860px)").matches?$("#sb").classList.contains("open"):!$("#app").classList.contains("sb-off");
+const topbar=()=>`<div class="top"><button class="ib menu" data-a="menu" aria-label="Toggle navigation menu" aria-expanded="${sbOpen()}">${ic("menu")}</button><button class="pill" data-a="go" data-v="set">${ic("pin")} <span class="l">${esc([st.dist,st.state].filter(Boolean).join(", ")||t("loc"))}</span></button><span class="sp"></span><a class="pill sosp" href="tel:112">${ic("phone")} 112</a><button class="pill" data-a="lang" aria-label="Switch language between English and Hindi">${ic("globe")} ${st.lang==="hi"?"EN":"हिं"}</button><button class="ib" data-a="theme" aria-label="Switch light or dark mode">${ic(isDark()?"sun":"moon")}</button></div>`;
+const recent=(n,del)=>st.chats.length?`<ul class="list">${st.chats.slice(0,n).map((c,i)=>`<li class="rbw"><button class="rb" data-a="open" data-i="${i}"><b>${esc(c.title)}</b><small>${ago(c.ts)}</small></button>${del?`<button class="ib" data-a="delchat" data-i="${i}" aria-label="Delete this conversation">${ic("trash","sm")}</button>`:""}</li>`).join("")}</ul>${del?`<p><button class="btn o" data-a="clrchats">${ic("trash","sm")} Delete all conversations</button></p>`:""}`:`<p class="sub">${esc(t("none"))}</p>`;
+const sch=x=>`<article class="card"><div class="row"><h2>${x.n}</h2><span class="tag ${x.lv==="State"?"w":"g"}">${x.lv} government</span></div><p>${x.w}</p><details><summary>Who qualifies, documents and how to apply</summary><dl><dt>Who may qualify</dt><dd>${x.q}</dd><dt>What it may cover</dt><dd>${x.cv}</dd><dt>Limits</dt><dd>${x.lm}</dd><dt>Documents you may need</dt><dd>${x.dc}</dd><dt>How to check eligibility</dt><dd>${x.ck}</dd></dl></details><div class="row"><span><a class="btn o" href="${x.u}" target="_blank" rel="noopener noreferrer">Official website</a> <button class="chip" data-a="star" data-v="${x.id}" aria-pressed="${st.saved.includes(x.id)}">${ic("star","sm")} Save</button></span><small>${VER}</small></div></article>`;
+const schList=()=>{const q=sf.q.toLowerCase().trim(),l=SCH.filter(x=>(!sf.c||x.cat===sf.c)&&(x.n+" "+x.w).toLowerCase().includes(q));return l.length?l.map(sch).join(""):"<p class='note'>No schemes match. Try a different word.</p>"};
+const fin=x=>`<article class="card"><h2>${x.n}</h2><p>${x.w}</p><dl><dt>Who may qualify</dt><dd>${x.q}</dd><dt>Limits</dt><dd>${x.lm}</dd></dl>${x.u?`<a class="btn o" href="${x.u}" target="_blank" rel="noopener noreferrer">Official website</a>`:"<small>Ask your bank or hospital directly.</small>"}</article>`;
+const mapUrl=q=>hs.lat?`https://www.google.com/maps/search/${encodeURIComponent(q)}/@${hs.lat},${hs.lng},13z`:`https://www.google.com/maps/search/${encodeURIComponent([q,st.dist,st.state].filter(Boolean).join(" "))}`;
+const HR=[["Emergency hospitals (24×7)","gov","Hospitals with an emergency department. For an emergency, call 108 or 112 first.","emergency hospital"],["Government hospitals","gov","Public hospitals often charge little or nothing for check-ups and some treatments. Call to confirm.","government hospital"],["Community and primary health centres","gov","First stop for fever, infections and check-ups. Usually low cost.","primary health centre"],["Ayushman Bharat listed hospitals","aff","Cashless treatment if you are eligible. Search the official list.","https://hospitals.pmjay.gov.in"],["Jan Aushadhi medicine shops","aff","Generic medicines at lower prices.","Jan Aushadhi Kendra"],["Free online doctor (eSanjeevani)","aff","Free government video consultation from home.","https://esanjeevani.mohfw.gov.in"],["Pharmacies","oth","Find medicine shops near you. Always carry the doctor’s prescription.","pharmacy"],["Blood banks (e-RaktKosh)","oth","Search blood availability through the official portal.","https://www.eraktkosh.in"]];
+const HEROART=`<svg class="art" viewBox="0 0 320 240" role="img" aria-label="Heart with a pulse line, a medical cross and a shield"><circle class="a1" cx="170" cy="120" r="104"/><circle class="a2" cx="170" cy="120" r="74"/><g class="fl"><path class="a3" d="M170 178s-52-32-52-72a28 28 0 0152-14 28 28 0 0152 14c0 40-52 72-52 72z"/><path class="a4" d="M126 120h26l12-26 20 52 14-30h24"/></g><g class="fl" style="animation-delay:-2s"><rect class="a5" x="238" y="36" width="58" height="58" rx="17"/><path d="M267 52v26M254 65h26" stroke="#fff" stroke-width="7" stroke-linecap="round"/></g><g class="fl" style="animation-delay:-3s"><circle class="a6" cx="60" cy="70" r="24"/><path d="M49 70l8 8 14-16" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></g></svg>`;
+const TIPART=`<svg class="tip-art" viewBox="0 0 84 84" aria-hidden="true"><circle cx="42" cy="42" r="40" fill="var(--okbg)" stroke="var(--ok)" stroke-width="2"/><path d="M42 64V38M42 46c-12 0-18-8-18-18 12 0 18 8 18 18zM42 40c0-10 6-17 17-17 0 10-6 17-17 17z" fill="none" stroke="var(--ok)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 
 // ===== Screens =====
-
-
-
 const V={
+home:()=>`<section class="hero"><div><span class="tag g">${t("tag")}</span><h1 tabindex="-1">${t("hey")} 👋</h1><h2>${t("h2")}</h2><p class="sub">${t("sub")}</p>${askForm()}<div class="chips">${SUG.map(s=>`<button class="chip" data-a="ask" data-q="${esc(s)}">${esc(s)}</button>`).join("")}</div></div>${HEROART}</section>
+<div class="stats"><div class="stat">${ic("shield")}${t("st1")}</div><div class="stat">${ic("clock")}${t("st2")}</div><div class="stat">${ic("bank")}${t("st3")}</div></div>
+<div class="home-label"><h2>${t("help")}</h2><p>${t("helpSub")}</p></div>
+<div class="grid">${ACT.map(([v,i,c])=>`<button class="act" data-a="go" data-v="${v}"><span class="i ${c}">${ic(i)}</span><span><b>${t(v)}</b><span>${t("a_"+v)}</span></span></button>`).join("")}</div>
+<div class="home-label"><h2>${t("space")}</h2><p>${t("spaceSub")}</p></div>
+<div class="home-bottom"><section class="card recent-home"><div class="row"><h2>${t("recent")}</h2><button class="lnk" data-a="go" data-v="rec">${t("all")}</button></div>${recent(3)}</section><section class="card tip-card">${TIPART}<h2>${ic("heart","sm")} ${t("tipH")}</h2><p>${TIPS[new Date().getDate()%TIPS.length]}</p><small>${t("tipS")}</small></section></div>
+<div class="home-safety">${ic("heart")}<span><b>${t("safeB")}</b><br>${t("safeT")}</span></div>`,
 
-
-
-home:()=>`<section class="hero"><div><span class="tag g">PATIENT SUPPORT, ALL IN ONE PLACE</span><h1 tabindex="-1">${t("hey")} 👋</h1><h2>Your health matters to us.</h2><p class="sub">Understand your health, find care nearby, and explore support you may qualify for — all in one simple place.</p>${askForm()}</div><img class="art" src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=700&q=85" alt="Healthcare professional supporting a patient" loading="eager"></section>
-
-<div class="home-label"><div><h2>How can we help today?</h2><p>Choose a service to get started.</p></div></div>
-
-<div class="grid">${ACT.filter(([v])=>["chat","sym","hosp","sch","fin","guide"].includes(v)).map(([v,i,h,d])=>`<button class="act" data-a="go" data-v="${v}"><span class="i">${ic(i)}</span><span><b>${h}</b><span>${d}</span></span></button>`).join("")}</div>
-
-<div class="home-label"><div><h2>Your health space</h2><p>Pick up where you left off or read a small wellness reminder.</p></div></div>
-
-<div class="home-bottom"><section class="card recent-home"><div class="row"><h2>Recent conversations</h2><button class="lnk" data-a="go" data-v="rec">View all</button></div>${recent(3)}</section><section class="card tip-card"><img class="tip-art" src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=240&q=80" alt="Green plant representing everyday wellbeing" loading="lazy"><h2>${ic("heart","sm")} Daily health reminder</h2><p>${TIP}</p><small>Small, consistent habits can support your wellbeing.</small></section></div>
-
-<div class="home-safety">${ic("heart")}<span><b>Here to support, not replace a doctor.</b><br>Our AI shares general health information. For an emergency in India, call 112 or seek urgent medical care.</span></div>`,
-
-
-
-chat:()=>`${hd("AI Health Assistant","Ask about symptoms, diseases, schemes and more. I share general information, not a diagnosis.")}<div class="chat-welcome"><h2>Your health questions, explained simply.</h2><p>Type a question below. You can ask in English or हिन्दी.</p></div><div id="msgs" role="log" aria-live="polite"></div><div class="bar">${askForm()}</div><div class="chat-examples" aria-label="Example questions">${SUG.concat(["What is diabetes?","How can I manage high blood pressure?","What should I do for a fever?","What is ORS used for?","नमस्ते","डेंगू के लक्षण क्या हैं?"]).map(s=>`<button class="chip" data-a="ask" data-q="${esc(s)}">${esc(s)}</button>`).join("")}<button class="chip" data-a="go" data-v="hosp">Find nearby hospitals</button><button class="chip" data-a="go" data-v="sch">View government schemes</button><button class="chip" data-a="new">New chat</button></div>`,
-
-
+chat:()=>`${hd(t("chat"),"Ask about symptoms, diseases, schemes and more. I share general information, not a diagnosis.")}<div id="msgs" role="log" aria-live="polite" aria-label="Conversation"></div>
+<div class="bar"><div class="chips">${cv.m.length?"":SUG.map(s=>`<button class="chip" data-a="ask" data-q="${esc(s)}">${esc(s)}</button>`).join("")}<button class="chip" data-a="go" data-v="sym">Check symptoms</button><button class="chip" data-a="go" data-v="hosp">Find nearby hospitals</button><button class="chip" data-a="go" data-v="sch">View government schemes</button><button class="chip" data-a="new">${ic("plus","sm")} New chat</button></div>${askForm()}<small class="hint">General information only. Emergency: call 112.</small></div>`,
 
 sym:()=>{const s=sc.step;let b;
-
-
-
 if(s===1)b=`<h2>What are you feeling?</h2><div class="chips">${SYM.map(v=>chip("sc","sy",v,"tog",sc.sy.includes(v))).join("")}</div><label for="ot">Anything else? (optional)</label><input class="f" id="ot" value="${esc(sc.ot)}"><label>How long have you had this?</label><div class="chips">${DUR.map(v=>chip("sc","du",v,"one",sc.du===v)).join("")}</div><button class="btn" data-a="sn">Next</button>`;
-
-
-
 else if(s===2)b=`<h2>A few more details</h2><label for="sa">Age group</label><select class="f" id="sa"><option value="">Select</option>${opts(AGES,sc.age)}</select><label>Do you have any of these right now?</label><div class="chips">${FLAGS.map(v=>chip("sc","rf",v,"tog",sc.rf.includes(v))).join("")}</div><button class="btn o" data-a="sb">Back</button> <button class="btn" data-a="sn">See results</button>`;
-
-
-
-else{const m=match([...sc.sy,sc.ot].join(" ")).slice(0,3);
-
-
-
-b=`${sc.rf.length||RED.test(sc.ot)?`<div class="urg" role="alert">${ic("warn","sm")} You marked a warning sign. Call 112 or go to the nearest hospital now.</div>`:""}${sc.du===DUR[3]?`<p class="note">Symptoms lasting over 2 weeks need a doctor visit.</p>`:""}${sc.age.startsWith("Child")?`<p class="note">Children can get worse quickly. Please show a doctor early.</p>`:""}<h2>Possible causes</h2>${m.length?m.map(rep).join(""):"<p>No clear match. Please see a general physician.</p>"}<div class="chips"><button class="btn" data-a="go" data-v="hosp">Find hospitals</button><button class="btn o" data-a="askai">Ask the AI assistant</button><button class="btn o" data-a="sr">Start over</button></div>`}
-
-
-
+else{const m=match([...sc.sy,sc.ot].join(" ")).slice(0,3),lv=triage({rf:sc.rf,txt:sc.ot,du:sc.du,age:sc.age,sy:sc.sy});
+b=`${triHTML(lv)}${lv===3?`<p><a class="btn red" href="tel:112">${ic("phone","sm")} Call 112</a> <a class="btn red" href="tel:108">${ic("phone","sm")} Ambulance 108</a></p>`:""}${sc.du===DUR[3]?`<p class="note">Symptoms lasting over 2 weeks need a doctor visit.</p>`:""}${sc.age.startsWith("Child")?`<p class="note">Children can get worse quickly. Please show a doctor early.</p>`:""}<h2>Possible causes</h2>${m.length?m.map(rep).join(""):"<p>No clear match. Please see a general physician.</p>"}<div class="chips noprint"><button class="btn" data-a="go" data-v="hosp">Find hospitals</button><button class="btn o" data-a="askai">Ask the AI assistant</button><button class="btn o" data-a="copysum">${ic("copy","sm")} Copy summary</button><button class="btn o" data-a="print">${ic("print","sm")} Print</button><button class="btn o" data-a="sr">Start over</button></div>`}
 return `${hd("Symptom checker","Tell us what you feel. We explain possible causes and next steps.")}<div class="two"><div class="card">${steps(s,["Symptoms","Details","Results"])}${b}</div><aside class="card note"><h2>${ic("warn","sm")} Important</h2><ul><li>This gives general information, not a diagnosis.</li><li>A doctor must examine you for a real answer.</li><li>Get urgent care for severe or sudden symptoms.</li></ul></aside></div>`},
 
-
-
 hosp:()=>{const has=st.state||st.dist||hs.lat;
-
-
-
-return `${hd("Find nearby hospitals","Enter your place. We link to official sources and never invent prices or bed availability.")}<form class="card" data-f="hosp"><div class="two" style="grid-template-columns:1fr 1fr"><div><label for="hst">State</label><select class="f" id="hst"><option value="">Select</option>${opts(STATES,st.state)}</select></div><div><label for="hd">District</label><input class="f" id="hd" value="${esc(st.dist)}"></div></div><div class="chips"><button class="btn">Show options</button><button type="button" class="btn o" data-a="geo">${ic("pin","sm")} Use my location</button></div></form>
-
-
-
+return `${hd("Find nearby hospitals","Enter your place. We link to official sources and never invent prices or bed availability.")}<div class="urg" role="note">${ic("warn","sm")} Emergency? Do not search. Call <a href="tel:108" style="color:inherit">108</a> or <a href="tel:112" style="color:inherit">112</a>.</div><form class="card" data-f="hosp"><div class="two" style="grid-template-columns:1fr 1fr"><div><label for="hst">State</label><select class="f" id="hst"><option value="">Select</option>${opts(STATES,st.state)}</select></div><div><label for="hd">District</label><input class="f" id="hd" value="${esc(st.dist)}"></div></div><div class="chips"><button class="btn">Show options</button><button type="button" class="btn o" data-a="geo">${ic("pin","sm")} Use my location</button></div></form>
 <div class="chips">${[["all","All"],["gov","Government"],["aff","Free or affordable"]].map(([v,l])=>`<button class="chip" data-a="htab" data-v="${v}" aria-pressed="${hs.tab===v}">${l}</button>`).join("")}</div>
-
-
-
-${has?HR.filter(r=>hs.tab==="all"||r[1]===hs.tab).map(r=>`<article class="card row"><div><h2>${r[0]} <span class="tag ${r[1]==="aff"?"g":""}">${r[1]==="aff"?"Affordable":"Government"}</span></h2><p>${r[2]}</p></div><a class="btn" href="${r[3].startsWith("http")?r[3]:mapUrl(r[3])}" target="\\_blank" rel="noopener noreferrer">${r[3].startsWith("http")?"Open official site":"Open in Maps"}</a></article>`).join(""):`<p class="note">Choose your state and district, or allow your location, to see options.</p>`}
-
-
-
+${has?HR.filter(r=>hs.tab==="all"||r[1]===hs.tab).map(r=>`<article class="card row"><div><h2>${r[0]} <span class="tag ${r[1]==="aff"?"g":r[1]==="oth"?"w":""}">${r[1]==="aff"?"Affordable":r[1]==="oth"?"Nearby":"Government"}</span></h2><p>${r[2]}</p></div><a class="btn" href="${r[3].startsWith("http")?r[3]:mapUrl(r[3])}" target="_blank" rel="noopener noreferrer">${r[3].startsWith("http")?"Open official site":"Open in Maps"}</a></article>`).join(""):`<p class="note">Choose your state and district, or allow your location, to see options.</p>`}
 <p class="note">Prices and bed availability are not shown because we cannot verify them. Please call the hospital. Emergency: 112 or 108.</p>`},
 
-
-
-sch:()=>{const q=sf.q.toLowerCase(),l=SCH.filter(x=>(!sf.c||x.cat===sf.c)&&(x.n+x.w).toLowerCase().includes(q));
-
-
-
-return `${hd("Government health schemes","Plain-language help. Eligibility is never promised until the official source confirms it.")}<div class="card"><label for="sq">Search schemes</label><input class="f" id="sq" data-sf="q" value="${esc(sf.q)}"><label for="sg">Type</label><select class="f" id="sg" data-sf="c"><option value="">All types</option>${opts([...new Set(SCH.map(x=>x.cat))],sf.c)}</select></div>${st.state?`<p class="note">Central schemes apply everywhere. For ${esc(st.state)}, also ask the state health department.</p>`:""}${l.length?l.map(sch).join(""):"<p>No schemes match. Try a different word.</p>"}`},
-
-
+sch:()=>`${hd("Government health schemes","Plain-language help. Eligibility is never promised until the official source confirms it.")}<div class="card"><label for="sq">Search schemes</label><input class="f" id="sq" data-sf="q" value="${esc(sf.q)}" autocomplete="off"><label for="sg">Type</label><select class="f" id="sg" data-sf="c"><option value="">All types</option>${opts([...new Set(SCH.map(x=>x.cat))],sf.c)}</select></div>${st.state?`<p class="note">Central schemes apply everywhere. For ${esc(st.state)}, also ask the state health department.</p>`:""}<div id="sl" aria-live="polite">${schList()}</div>`,
 
 fin:()=>`${hd("Medical financial assistance","Grants do not need repayment. Loans do. We keep them apart.")}<div class="chips"><button class="chip" data-a="ftab" data-v="g" aria-pressed="${ft==="g"}">Grants (no repayment)</button><button class="chip" data-a="ftab" data-v="l" aria-pressed="${ft==="l"}">Loans (must repay)</button></div>${ft==="l"?`<p class="note">${ic("warn","sm")} Loans must be repaid with interest. Compare offers. Never pay anyone who “guarantees” approval.</p>`:`<p class="note">Grants are not guaranteed. Ask the hospital social worker for help with forms.</p>`}${FIN[ft].map(fin).join("")}<p><small>${VER}</small></p>`,
 
-
-
 guide:()=>{const s=gd.step;let b;
-
-
-
 if(s===1)b=`<h2>About you</h2><label for="ga">Age group</label><select class="f" id="ga"><option value="">Select</option>${opts(AGES,gd.age)}</select><label for="gs">State</label><select class="f" id="gs"><option value="">Select</option>${opts(STATES,gd.st||st.state)}</select><p><button class="btn" data-a="gn">Next</button></p>`;
-
-
-
 else if(s===2)b=`<h2>Your health concern</h2><label for="gc">Choose a concern</label><select class="f" id="gc"><option value="">Select</option>${opts(KB.map(c=>c[0]),gd.cn)}</select><label for="gy">Symptoms (optional)</label><input class="f" id="gy" value="${esc(gd.sy)}" placeholder="Fever, stomach pain"><p><button class="btn o" data-a="gb">Back</button> <button class="btn" data-a="gn">See guidance</button></p>`;
-
-
-
 else{const c=KB.find(x=>x[0]===gd.cn)||match(gd.sy)[0];
-
-
-
-b=`${c?rep(c):"<p>We could not match this. Please see a general physician.</p>"}<p class="note">Based on: ${esc(gd.age||"any age")}, ${esc(gd.st||"any state")}. Educational only.</p><div class="chips"><button class="btn" data-a="go" data-v="hosp">Find hospitals</button><button class="btn o" data-a="ask" data-q="${esc("Tell me about "+(c?c[0]:"my concern")+" in simple words")}">Ask the AI assistant</button><button class="btn o" data-a="gr">Start over</button></div>`}
-
-
-
+b=`${c?rep(c):"<p>We could not match this. Please see a general physician.</p>"}${gd.age.startsWith("Senior")?`<p class="note">Many senior citizens aged 70+ may be eligible for Ayushman Bharat PM-JAY. Check on pmjay.gov.in.</p>`:""}<p class="note">Based on: ${esc(gd.age||"any age")}, ${esc(gd.st||"any state")}. Educational only.</p><div class="chips"><button class="btn" data-a="go" data-v="hosp">Find hospitals</button><button class="btn o" data-a="ask" data-q="${esc("Tell me about "+(c?c[0]:"my concern")+" in simple words")}">Ask the AI assistant</button><button class="btn o" data-a="gr">Start over</button></div>`}
 return `${hd("Personalized guidance","Answer a few simple questions. All answers are optional.")}<div class="two"><div class="card">${steps(s,["Basics","Concern","Results"])}${b}</div><aside class="card note"><p>Your answers stay on this device. This is education, not medical advice.</p></aside></div>`},
 
+emg:()=>`${hd(t("emg"),"Save these numbers. Tap a number on your phone to call.")}<div class="urg" role="note">${ic("warn","sm")} If someone is in danger, call <b>112</b> first. Do not wait, and do not drive yourself if you feel faint.</div><div class="helps">${HELP.map(h=>`<a class="hl" href="tel:${h[0]}"><span class="n">${h[0]}</span><span><b>${h[1]}</b><small>${h[2]}</small></span></a>`).join("")}</div>
+<div class="card" style="margin-top:16px"><h2>Call for help straight away if there is</h2><ul><li><b>Chest pain or pressure</b>, sweating, or pain in the arm or jaw.</li><li><b>Stroke signs:</b> face drooping, arm weakness, slurred speech. Note the time they began.</li><li><b>Severe trouble breathing</b> or blue lips.</li><li><b>Heavy bleeding</b> that will not stop.</li><li><b>Fits, fainting</b> or a person who does not respond.</li><li><b>Poisoning or snakebite.</b> Keep the person still and go to a hospital at once. Do not cut the wound or give home remedies.</li><li><b>Thoughts of self-harm.</b> Call Tele-MANAS 14416 or 112.</li></ul></div>`,
 
+tools:()=>`${hd(t("tools"),"Two quick checks. These are general guides, not a diagnosis.")}<div class="two" style="grid-template-columns:1fr 1fr"><form class="card" data-f="bmi"><h2>${ic("calc","sm")} BMI check (adults)</h2><label for="bh">Height (cm)</label><input class="f" id="bh" type="number" inputmode="decimal" min="50" max="250" required><label for="bw">Weight (kg)</label><input class="f" id="bw" type="number" inputmode="decimal" min="10" max="300" required><p><button class="btn">Check BMI</button></p><div id="bmir" class="res" aria-live="polite"></div><small>Uses cut-offs recommended for Asian adults. Not for children or pregnancy.</small></form>
+<form class="card" data-f="bp"><h2>${ic("pulse","sm")} Blood pressure check</h2><label for="bs">Upper number, systolic (mmHg)</label><input class="f" id="bs" type="number" inputmode="numeric" min="60" max="260" required><label for="bd">Lower number, diastolic (mmHg)</label><input class="f" id="bd" type="number" inputmode="numeric" min="30" max="160" required><p><button class="btn">Check BP</button></p><div id="bpr" class="res" aria-live="polite"></div><small>Rest for 5 minutes before measuring. One reading is not enough to decide.</small></form></div>`,
 
-rec:()=>`${hd("Recent conversations","Saved on this device only.")}<div class="card">${recent(20)}</div>`,
-
-
-
-saved:()=>`${hd("Saved information","Schemes you saved.")}${SCH.filter(x=>st.saved.includes(x.id)).map(sch).join("")||`<p class="note">Nothing saved yet. Tap Save on a scheme.</p>`}`,
-
-
-
-set:()=>`${hd("Settings and preferences","Make the site comfortable for you.")}<div class="two"><div class="card"><h2>Appearance</h2><div class="chips">${["light","dark","system"].map(v=>chip("st","theme",v,"pref",st.theme===v)).join("")}</div><label for="fs">Text size (${st.font}%)</label><input id="fs" type="range" min="90" max="140" step="10" value="${st.font}" data-s="font" style="width:100%"><label for="lg">Language</label><select class="f" id="lg" data-s="lang"><option value="en">English</option><option value="hi"${st.lang==="hi"?" selected":""}>हिन्दी</option></select><small>More Indian languages coming soon.</small><h2 style="margin-top:20px">Accessibility</h2>${tgl("calm","Reduce motion")}${tgl("hc","High contrast")}${tgl("voice","Voice input")}</div>
-
-
-
+rec:()=>`${hd(t("rec"),"Saved on this device only.")}<div class="card">${recent(20,1)}</div>`,
+saved:()=>`${hd(t("saved"),"Schemes you saved.")}${SCH.filter(x=>st.saved.includes(x.id)).map(sch).join("")||`<p class="note">Nothing saved yet. Tap Save on a scheme.</p>`}`,
+set:()=>`${hd(t("set"),"Make the site comfortable for you.")}<div class="two"><div class="card"><h2>Appearance</h2><div class="chips">${["light","dark","system"].map(v=>chip("st","theme",v,"pref",st.theme===v)).join("")}</div><label for="fs">Text size (<span id="fsv">${st.font}</span>%)</label><input id="fs" type="range" min="90" max="140" step="10" value="${st.font}" data-s="font" style="width:100%"><label for="lg">Language</label><select class="f" id="lg" data-s="lang"><option value="en">English</option><option value="hi"${st.lang==="hi"?" selected":""}>हिन्दी</option></select><small>Menus and the home page are translated. The AI answers in the language you write in. More Indian languages coming soon.</small><h2 style="margin-top:20px">Accessibility</h2>${tgl("calm","Reduce motion")}${tgl("hc","High contrast")}${tgl("voice","Voice input")}</div>
 <div class="card"><h2>Location</h2><label for="ls">State</label><select class="f" id="ls" data-s="state"><option value="">Select</option>${opts(STATES,st.state)}</select><label for="ld">District</label><input class="f" id="ld" data-s="dist" value="${esc(st.dist)}"><h2 style="margin-top:20px">Privacy</h2>${tgl("keep","Save recent conversations on this device")}<button class="btn o" data-a="clear">Clear all my data</button></div></div>`};
-
-
-
 const AFTER={chat:paint};
 
-
-
-
-
-
-
 // ===== Drawing and moving between screens =====
-
-
-
-function render(){$("#sb").innerHTML=`<div class="logo">${ic("heart")}<div>SwasthyaSaathi<small>Your Health. Our Support.</small></div></div>`+NAV.map(([id,i])=>`<button class="nb" data-a="go" data-v="${id}"${cur===id?' aria-current="page"':""}>${ic(i)}${esc(t(id))}</button>`).join("")+`<div class="sos"><b>Emergency?</b><br>Call 112 or ambulance 108</div>`;
-
-
-
-$("#v").innerHTML=topbar()+V[cur]()+`<p class="foot">SwasthyaSaathi shares general health information, not a diagnosis or treatment. In an emergency call 112.</p>`;AFTER[cur]?.()}
-
-
-
-function go(v){if(v==="aff"){hs.tab="aff";v="hosp"}cur=v;$("#sb").classList.remove("open");render();$("#v").scrollTop=0;$("#v h1")?.focus()}
-
-
-
-
-
-
+function render(){const sb=$("#sb");
+sb.innerHTML=`<div class="logo"><span class="lg">${ic("heart")}</span><div>SwasthyaSaathi<small>Your Health. Our Support.</small></div></div>`+NAV.map(([id,i])=>`<button class="nb" data-a="go" data-v="${id}"${cur===id?' aria-current="page"':""}>${ic(i)}${esc(t(id))}</button>`).join("")+`<div class="sos"><b>${t("sos")}</b><a href="tel:112">112</a><small style="color:#fff">108 ambulance</small></div>`;
+$("#tb").innerHTML=[["home","home","s_home"],["chat","chat","s_chat"],["sym","pulse","s_sym"],["hosp","pin","s_hosp"],["emg","phone","s_emg"]].map(([v,i,k])=>`<button data-a="go" data-v="${v}"${v==="emg"?' class="e"':""}${cur===v?' aria-current="page"':""}>${ic(i)}<span>${esc(t(k))}</span></button>`).join("");
+$("#v").innerHTML=topbar()+V[cur]()+`<p class="foot">${esc(t("foot"))}</p>`;AFTER[cur]?.()}
+function closeSb(){$("#sb").classList.remove("open");$("#scrim").classList.remove("on")}
+function go(v){if(v==="aff"){hs.tab="aff";v="hosp"}if(!V[v])v="home";cur=v;closeSb();render();$("#v").scrollTop=0;$("#v h1")?.focus({preventScroll:true})}
+const symSummary=()=>{const m=match([...sc.sy,sc.ot].join(" ")).slice(0,3).map(c=>c[0]);return `SwasthyaSaathi symptom summary\nSymptoms: ${[...sc.sy,sc.ot].filter(Boolean).join(", ")||"none"}\nDuration: ${sc.du}\nAge group: ${sc.age||"not given"}\nWarning signs: ${sc.rf.join(", ")||"none"}\nPossible matches (not a diagnosis): ${m.join(", ")||"none"}\nUrgency: ${TRI[triage({rf:sc.rf,txt:sc.ot,du:sc.du,age:sc.age,sy:sc.sy})].h}\nGeneral information only. See a doctor. Emergency: 112.`};
 
 // ===== Clicks, forms and changes =====
-
-
-
 const A={
-
-
-
-go:b=>go(b.dataset.v),menu:()=>{if(window.matchMedia("(max-width: 860px)").matches){$("#sb").classList.toggle("open");const m=$(".menu");if(m)m.setAttribute("aria-expanded",String($("#sb").classList.contains("open")));}else{$("#app").classList.toggle("sidebar-closed");const m=$(".menu");if(m)m.setAttribute("aria-expanded",String(!$("#app").classList.contains("sidebar-closed")));}},
-
-
-
-theme:()=>{const d=document.documentElement.dataset.theme==="dark"||(st.theme==="system"&&matchMedia("(prefers-color-scheme:dark)").matches);st.theme=d?"light":"dark";save();applySet();render()},
-
-
-
+go:b=>go(b.dataset.v),
+menu:()=>{if(matchMedia("(max-width: 860px)").matches){const o=$("#sb").classList.toggle("open");$("#scrim").classList.toggle("on",o)}else $("#app").classList.toggle("sb-off");$(".menu")?.setAttribute("aria-expanded",String(sbOpen()))},
+closesb:closeSb,
+theme:()=>{st.theme=isDark()?"light":"dark";save();applySet();render()},
+lang:()=>{st.lang=st.lang==="hi"?"en":"hi";save();applySet();render()},
 ask:b=>send(b.dataset.q),new:()=>{cv={id:0,m:[]};render()},
-
-
-
-open:b=>{const c=st.chats[+b.dataset.i];cv={id:c.id,m:c.m.map(m=>({...m}))};go("chat")},
-
-
-
-mic:()=>{const R=window.SpeechRecognition||window.webkitSpeechRecognition;if(!R)return toast("Voice input is not supported here. Please type your question.");const r=new R();r.lang=st.lang==="hi"?"hi-IN":"en-IN";r.onresult=e=>{$("#q").value=e.results[0][0].transcript};r.onerror=()=>toast("The microphone could not be used. Check permission or type instead.");r.start()},
-
-
-
+open:b=>{const c=st.chats[+b.dataset.i];if(!c)return;cv={id:c.id,m:c.m.map(m=>({...m}))};go("chat")},
+delchat:b=>{const i=+b.dataset.i;if(st.chats[i]&&st.chats[i].id===cv.id)cv={id:0,m:[]};st.chats.splice(i,1);save();render()},
+clrchats:b=>{if(!b.dataset.sure){b.dataset.sure=1;b.textContent="Tap again to delete all";return}st.chats=[];cv={id:0,m:[]};save();render();toast("Conversations deleted.")},
+copy:b=>{const m=cv.m[+b.dataset.i];if(m)copy(m.t.replace(/\*\*/g,""))},
+speak:b=>{const m=cv.m[+b.dataset.i];if(!m||!window.speechSynthesis)return toast("Listening is not supported on this device.");speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(m.t.replace(/\*\*/g,""));u.lang=/[\u0900-\u097F]/.test(m.t)?"hi-IN":"en-IN";speechSynthesis.speak(u)},
+mic:b=>{const R=window.SpeechRecognition||window.webkitSpeechRecognition;if(!R)return toast("Voice input is not supported here. Please type your question.");const inp=b.closest("form").querySelector("input"),r=new R();r.lang=st.lang==="hi"?"hi-IN":"en-IN";b.classList.add("rec");r.onresult=e=>{inp.value=e.results[0][0].transcript;inp.focus()};r.onerror=()=>toast("The microphone could not be used. Check permission or type instead.");r.onend=()=>b.classList.remove("rec");try{r.start()}catch{b.classList.remove("rec")}},
 tog:b=>{const o=O[b.dataset.o],k=b.dataset.k,v=b.dataset.v;o[k]=o[k].includes(v)?o[k].filter(x=>x!==v):[...o[k],v];b.setAttribute("aria-pressed",o[k].includes(v))},
-
-
-
 one:b=>{O[b.dataset.o][b.dataset.k]=b.dataset.v;b.parentNode.querySelectorAll("[data-a=one]").forEach(x=>x.setAttribute("aria-pressed",x===b))},
-
-
-
-sn:()=>{if(sc.step===1){sc.ot=$("#ot").value;if(!sc.sy.length&&!sc.ot.trim())return toast("Please choose at least one symptom.")}else sc.age=$("#sa").value;sc.step++;render()},
-
-
-
+sn:()=>{if(sc.step===1){sc.ot=$("#ot").value;if(!sc.sy.length&&!sc.ot.trim())return toast("Please choose at least one symptom.")}else sc.age=$("#sa").value;sc.step++;render();$("#v").scrollTop=0},
 sb:()=>{sc.step--;render()},sr:()=>{rstS();render()},
-
-
-
+copysum:()=>copy(symSummary()),print:()=>window.print(),
 askai:()=>send(`I am ${sc.age||"an adult"} with ${[...sc.sy,sc.ot].filter(Boolean).join(", ")} for ${sc.du}. What could be the reason?`),
-
-
-
 gn:()=>{if(gd.step===1){gd.age=$("#ga").value;gd.st=$("#gs").value;if(gd.st){st.state=gd.st;save()}}else{gd.cn=$("#gc").value;gd.sy=$("#gy").value}gd.step++;render()},
-
-
-
 gb:()=>{gd.step--;render()},gr:()=>{rstG();render()},
-
-
-
 htab:b=>{hs.tab=b.dataset.v;render()},ftab:b=>{ft=b.dataset.v;render()},
-
-
-
 geo:()=>navigator.geolocation?navigator.geolocation.getCurrentPosition(p=>{hs.lat=p.coords.latitude;hs.lng=p.coords.longitude;render()},()=>toast("Location was not allowed. Please choose your state and district instead."),{timeout:10000}):toast("Location is not available. Please choose your state and district."),
-
-
-
-star:b=>{const i=b.dataset.v;st.saved=st.saved.includes(i)?st.saved.filter(x=>x!==i):[...st.saved,i];save();b.setAttribute("aria-pressed",st.saved.includes(i))},
-
-
-
+star:b=>{const i=b.dataset.v;st.saved=st.saved.includes(i)?st.saved.filter(x=>x!==i):[...st.saved,i];save();if(cur==="saved")render();else b.setAttribute("aria-pressed",st.saved.includes(i))},
 pref:b=>{st[b.dataset.k]=b.dataset.v;save();applySet();render()},
+clear:b=>{if(!b.dataset.sure){b.dataset.sure=1;b.textContent="Tap again to delete everything";return}try{localStorage.removeItem("ss")}catch{}st={...D,saved:[],chats:[]};cv={id:0,m:[]};Object.assign(hs,{tab:"all",lat:0,lng:0});Object.assign(sf,{q:"",c:""});applySet();render();toast("All your data was deleted.")}};
+document.addEventListener("click",e=>{const b=e.target.closest("[data-a]");if(b&&A[b.dataset.a])A[b.dataset.a](b)});
 
+// Health tools
+function bmiCalc(h,w){const b=w/((h/100)**2),r=Math.round(b*10)/10;let c,k;
+if(b<18.5){c="Underweight range";k="w"}else if(b<23){c="Healthy range";k="g"}else if(b<25){c="Overweight range (Asian cut-off)";k="w"}else{c="Obese range (Asian cut-off)";k="w"}return{b:r,c,k}}
+function bpCalc(s,d){if(s>180||d>120)return{l:"Very high. Recheck after 5 minutes. If it stays this high, or you have chest pain, bad headache, weakness or trouble speaking, call 112 now.",k:"bad"};
+if(s>=140||d>=90)return{l:"High (stage 2). Please see a doctor soon.",k:"warn"};if(s>=130||d>=80)return{l:"High (stage 1) by some guidelines. Recheck on another day and talk to a doctor.",k:"warn"};
+if(s>=120)return{l:"Slightly raised. Less salt and daily exercise help. Recheck regularly.",k:"ok"};if(s<90||d<60)return{l:"Low. If you feel dizzy or faint, sit or lie down and see a doctor.",k:"warn"};return{l:"Normal range. Keep up healthy habits.",k:"ok"}}
 
-
-clear:b=>{if(!b.dataset.sure){b.dataset.sure=1;b.textContent="Tap again to delete everything";return}try{localStorage.removeItem("ss")}catch{}st={...D};cv={id:0,m:[]};applySet();render();toast("All your data was deleted.")}};
-
-
-
-document.addEventListener("click",e=>{const b=e.target.closest("[data-a]");if(b)A[b.dataset.a](b)});
-
-
-
-document.addEventListener("submit",e=>{
-  e.preventDefault();
-  const f=e.target.dataset.f;
-  if(f==="ask"){
-    const i=$("#q");
-    if(!i){toast("Chat input is unavailable. Please reopen the assistant.");return;}
-    const v=i.value.trim();
-    if(!v){toast("Please type a question first.");i.focus();return;}
-    if(busy){toast("Please wait for the current answer to finish.");return;}
-    i.value="";
-    send(v);
-  }
-  if(f==="hosp"){
-    st.state=$("#hst")?.value||"";
-    st.dist=$("#hd")?.value.trim()||"";
-    hs.lat=0;save();render();
-  }
-});
-
+document.addEventListener("submit",e=>{e.preventDefault();const f=e.target.dataset.f;
+if(f==="ask"){const i=e.target.querySelector("input"),v=i.value;if(!v.trim())return;if(busy)return toast(t("wait"));i.value="";send(v)}
+if(f==="hosp"){st.state=$("#hst").value;st.dist=$("#hd").value.trim();hs.lat=0;hs.lng=0;save();render()}
+if(f==="bmi"){const h=+$("#bh").value,w=+$("#bw").value,o=$("#bmir");if(!(h>=50&&h<=250&&w>=10&&w<=300)){o.innerHTML="<span class='bad'>Please enter a valid height and weight.</span>";return}const r=bmiCalc(h,w);o.innerHTML=`<b>BMI ${r.b}</b> <span class="tag ${r.k}">${r.c}</span>`}
+if(f==="bp"){const s=+$("#bs").value,d=+$("#bd").value,o=$("#bpr");if(!(s>=60&&s<=260&&d>=30&&d<=160&&s>d)){o.innerHTML="<span class='bad'>Please enter valid numbers. The upper number must be higher than the lower.</span>";return}const r=bpCalc(s,d);o.innerHTML=`<b>${s}/${d} mmHg</b><div class="tri ${r.k}" style="margin-top:8px"><span class="dot"></span><div>${r.l}</div></div>`}});
+document.addEventListener("input",e=>{const x=e.target;
+if(x.dataset.sf==="q"){sf.q=x.value;$("#sl").innerHTML=schList()}
+if(x.dataset.s==="font"){st.font=+x.value;save();applySet();const o=$("#fsv");if(o)o.textContent=st.font}});
 document.addEventListener("change",e=>{const x=e.target,k=x.dataset.s;
-
-if(x.dataset.sf){sf[x.dataset.sf]=x.value;render()}
-
-if(k){st[k]=x.type==="checkbox"?+x.checked:x.type==="range"?+x.value:x.value;save();applySet();if(k!=="dist")render()}});
-
-
-
-document.addEventListener("keydown",e=>{if(e.key==="Escape")$("#sb").classList.remove("open")});
+if(x.dataset.sf==="c"){sf.c=x.value;$("#sl").innerHTML=schList();return}
+if(k&&k!=="font"){st[k]=x.type==="checkbox"?+x.checked:x.value;save();applySet();if(k!=="dist"){render();document.querySelector(`[data-s="${k}"]`)?.focus()}}});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeSb()});
 
 // ===== Quick self-test: run runTests() in the browser console =====
-window.runTests=()=>{const r=[["dengue match",match("fever headache rash")[0][0]==="Dengue"],["red flag",RED.test("I have chest pain")],["safe text",!md("<script>").includes("<script>")],["no false alarm",!RED.test("I have a mild cold")]];r.forEach(([n,ok])=>console[ok?"log":"error"]((ok?"PASS ":"FAIL ")+n));return r.every(x=>x[1])};
+window.runTests=()=>{const r=[
+["dengue match",match("fever headache rash")[0][0]==="Dengue"],
+["no substring false match",!match("outbreak").length&&!match("fluids").length],
+["red flag",RED.test("I have chest pain")],["hindi red flag",RED.test("सीने में दर्द है")],
+["no false alarm",!RED.test("I have a mild cold")],
+["education is not emergency",!isEmerg("What are the symptoms of a stroke?")],["personal stroke is emergency",isEmerg("My father may have a stroke")],
+["safe text",!md("<script>").includes("<script>")],["bullets after text",md("Hi\n- a\n- b").includes("<ul>")],
+["facts",facts("my son is 6 years old, fever for 3 days").age===6&&facts("fever for 3 days").days===3],
+["triage emergency",triage({rf:["Chest pain"]})===3],["triage low",triage({du:DUR[0],sy:["Cough"],age:"Adult (18–59)"})===1],
+["bmi",bmiCalc(170,65).c==="Healthy range"],["bp crisis",bpCalc(190,125).k==="bad"]];
+r.forEach(([n,ok])=>console[ok?"log":"error"]((ok?"PASS ":"FAIL ")+n));return r.every(x=>x[1])};
 
 applySet();render();
 
+// ===== Welcome screen: shows the name first, then opens the app =====
+(function(){const s=$("#splash");if(!s)return;const nm=$("#spName"),lock=on=>[$("#app"),$("#tb")].forEach(e=>{if(e)on?e.setAttribute("inert",""):e.removeAttribute("inert")});let done=0,timer;
+if(nm)nm.innerHTML=[..."SwasthyaSaathi"].map((c,i)=>`<span aria-hidden="true"${i>=8?' class="t"':""} style="animation-delay:${(0.5+i*0.07).toFixed(2)}s">${c}</span>`).join("");
+function open(){if(done)return;done=1;clearTimeout(timer);lock(false);s.classList.add("out");setTimeout(()=>{s.remove();$("#v h1")?.focus({preventScroll:true})},650)}
+lock(true);s.addEventListener("click",e=>{if(e.target.closest("[data-open]"))open()});
+document.addEventListener("keydown",e=>{if(!done&&(e.key==="Enter"||e.key==="Escape"||e.key===" ")){e.preventDefault();open()}});
+timer=setTimeout(open,st.calm?1500:4200);try{s.querySelector(".sp-btn").focus({preventScroll:true})}catch{}})();
 </script>
 </body>
 </html>
